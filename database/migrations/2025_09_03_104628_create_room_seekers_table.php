@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('room_seekers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('seekers', function (Blueprint $table) {
+        $table->unsignedBigInteger('UserID')->primary();
+        $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
+        $table->string('Preferences', 100)->nullable();
         });
+
     }
+
 
     /**
      * Reverse the migrations.

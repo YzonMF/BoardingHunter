@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('users', function (Blueprint $table) {
+            $table->bigIncrements('UserID');
+            $table->string('fullname',50);
+            $table->string('email',50)->unique();
+            $table->string('password');
+            $table->string('contactnum',50);
+            $table->enum('Role',['roomSeeker','roomOwner']);
+            $table->timestamp('dateJoined')->useCurrent();
+
         });
     }
 
