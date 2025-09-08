@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id('ReviewID'); 
             $table->foreignId('SeekerID')
-                  ->constrained('seekers', 'SeekerID')
+                  ->constrained('seekers', 'UserID')
                   ->onDelete('cascade'); 
             $table->foreignId('AccommodationID')
                   ->constrained('accommodations', 'AccommodationID')
