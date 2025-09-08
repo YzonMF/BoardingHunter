@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accommodations', function (Blueprint $table) {
-            $table->bigIncrement('AccomodationID');
-            $table->foreign('OwnerID')->references('UserID')->on('owners')
-            $table->timestamps();
+        Schema::create(table: 'accommodations', function (Blueprint $table) {
+            $table->bigIncrements(column: 'AccomodationID');
+            $table->foreign(column: 'OwnerID')->references('UserID')->on('owners');
+            $table->string(column: 'Name', length: 100);
+            $table->enum(column: 'Type', allowed: ['Boarding']);
+            $table->string(column: 'Description');
+            $table->string(column: 'Location');
+            $table->decimal(column: 'PricePerNight' 10, 2);
+            $table->decimal(column: 'PricePerMonth' 10, 2);
+            
+
+            
+
 
         });
     }
