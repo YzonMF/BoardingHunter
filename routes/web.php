@@ -22,10 +22,15 @@ Route::get('/', function () {
 Route::get('/register', function () {
     return view('auth/register');
 });
-Route::get('/log in', function () {
+Route::get('/login', function () {
     return view('auth/login');
 });
 Route::get('/forgotpassword', function () {
     return view('auth/forgot');
+});
+
+/*ui*/
+Route::get('/boardinghunter/home',function()
+{return view('home');
 });
 

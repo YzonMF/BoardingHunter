@@ -31,10 +31,10 @@
                 </select>
             </div>
             
-            <button type="submit" class="submitbtn">Register</button>
+            <button type="submit" class="submitbtn">Log in</button>
             
             <p class="login">
-                Already have an account? <a href="#">Login</a>
+                Already have an account? <a href="login">Login</a>
             </p>
         </form>
     </section>
