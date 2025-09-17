@@ -11,6 +11,8 @@
     </header>
     @yield('content')
     <footer>
+        <h2>contact us</h2>
+        <p>email: boardingHunt@gmail.com</p>
         <p>&copy; Boarding Hunter. All rights reserved.</p>
     </footer>
 </body>
