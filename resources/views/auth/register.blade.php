@@ -1,7 +1,6 @@
 @extends('auth.logintemp')
 @section('content')
     <header>
-        <h1>Boarding Hunter</h1>
         <p>welcome</p>
     </header>
     
@@ -31,7 +30,7 @@
                 </select>
             </div>
             
-            <button type="submit" class="submitbtn">Log in</button>
+            <button type="submit" class="submitbtn">Register</button>
             
             <p class="login">
                 Already have an account? <a href="login">Login</a>

@@ -1,0 +1,146 @@
+/* Reset a bit */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: #0078d7;
+    color: white;
+    padding: 15px 40px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+/* Navbar layout */
+/* Navbar layout */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Quick links (inline on wide screens) */
+.quick-links {
+    display: flex;
+    gap: 20px;
+}
+
+.quick-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.quick-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffd43b;
+}
+
+.quick-links a.active {
+    background: #ffd43b;
+    color: #0078d7;
+    font-weight: bold;
+}
+
+/* Dropdown links (hidden by default) */
+.nav-links {
+    display: none;
+    flex-direction: column;
+    background: #0078d7;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    padding: 10px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.nav-links.show {
+    display: flex;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 12px 20px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffd43b;
+}
+
+.nav-links a.active {
+    background: #ffd43b;
+    color: #0078d7;
+    font-weight: bold;
+}
+
+/* Hamburger always visible */
+.hamburger {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.hamburger:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .quick-links {
+        display: none; /* hide inline nav on smaller screens */
+    }
+
+    .nav-links {
+        width: 100%; /* full width dropdown for mobile */
+        left: 0;
+    }
+}
+
+/* Main content */
+main, .content {
+    flex: 1;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Footer */
+footer {
+    background: #0078d7;
+    color: #f1f1f1;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: auto;
+}
+
+footer h2 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+footer p {
+    font-size: 0.9rem;
+}

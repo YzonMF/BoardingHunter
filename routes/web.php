@@ -30,7 +30,16 @@ Route::get('/forgotpassword', function () {
 });
 
 /*ui*/
-Route::get('/boardinghunter/home',function()
-{return view('home');
-});
+Route::get('/boardinghunter/home', function () {
+    return view('home');
+})->name('home');
 
+// Inquiries
+Route::get('/boardinghunter/home/showinquiries', function () {
+    return view('inquiries/showinquiries');
+})->name('inquiries.show');
+
+// Profile
+Route::get('/boardinghunter/home/profile', function () {
+    return view('profiles/showprofile');
+})->name('profile.show');
