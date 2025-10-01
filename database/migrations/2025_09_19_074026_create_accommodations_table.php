@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrement('AccommodationID');
             $table->unsignedBigInteger('OwnerID');
             $table->string('Name', 100);
-            $table->enum('Type',['Boarding']);
+            $table->enum('Type',['Boarding','Transient','Hotel']);
             $table->string('Description');
             $table->string('Location');
             $table->decimal('PricePerNight', 10, 2);

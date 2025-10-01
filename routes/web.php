@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-
-});
+    return view('home');
+})->name('home');
 
 /*register/login*/
 Route::get('/register', function () {
@@ -30,9 +29,6 @@ Route::get('/forgotpassword', function () {
 });
 
 /*ui*/
-Route::get('/boardinghunter/home', function () {
-    return view('home');
-})->name('home');
 
 // Inquiries
 Route::get('/boardinghunter/home/showinquiries', function () {
