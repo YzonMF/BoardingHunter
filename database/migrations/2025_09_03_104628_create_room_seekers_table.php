@@ -10,6 +10,8 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+
+    
     {
         Schema::create('seekers', function (Blueprint $table) {
         $table->unsignedBigInteger('UserID')->primary();
