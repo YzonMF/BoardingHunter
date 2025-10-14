@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('inquiries', function (Blueprint $table) {
-            $table->unsignedBigInteger('UserID')->primary();
-            $table-> int ('Seeker Id');
-            $table -> int('Owner id');
-            $table-> text('Message');
-            $table-> DATETIME('Datasent');
-            $table-> ENUM('Status'['Pending' "Replied"]);
-            $table->timestamps();
-        });
-    }
+   public function up(): void
+{
+    Schema::create('inquiries', function (Blueprint $table) {
+        $table->id('UserID'); // or better: $table->bigIncrements('UserID') if you want a custom primary key
+        $table->unsignedBigInteger('SeekerID');
+        $table->unsignedBigInteger('OwnerID');
+        $table->text('Message');
+        $table->dateTime('DateSent');
+        $table->enum('Status', ['Pending', 'Replied'])->default('Pending');
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
