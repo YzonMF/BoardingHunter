@@ -16,8 +16,8 @@ class CreatePhotosTable extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id(photoID);
             $table->int(AccommodationID);
-            $table->varchar('FilePathURL', 255);
-            $table->varchar('Caption',255);
+            $table->varchar('FilePathURL','255');
+            $table->varchar('Caption','255');
         });
     }
 
