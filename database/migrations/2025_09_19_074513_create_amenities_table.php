@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(table: 'amenities', callback: function (Blueprint $table) {
-            $table->unsignedBigInteger(column: 'AmenityID')->primary();
-            $table->foreign(columns:'AccommodationID')->references(columns: 'AccommodationID')->on(table: 'Accommodation')->onDelete(action:'cascade');
-            $table->string(column:'AmenityName', length:100);
-            $table->string(column:'Description', length:500);
+        Schema::create('amenities', function (Blueprint $table) {
+            $table->id('AmenityID'); // Use id() instead of unsignedBigInteger
+            $table->unsignedBigInteger('AccommodationID');
+            $table->string('AmenityName', 100);
+            $table->string('Description', 500);
+
+            // Fix foreign key syntax
+            $table->foreign('AccommodationID')
+                ->references('AccommodationID')
+                ->on('accommodations')
+                ->onDelete('cascade');
         });
     }
 

@@ -21,13 +21,15 @@ return new class extends Migration
             $table->timestamp('dateJoined')->useCurrent();
 
         });
+
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('users'); // Change 'user' to 'users'
     }
 };

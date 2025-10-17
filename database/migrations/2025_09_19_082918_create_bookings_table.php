@@ -20,11 +20,11 @@ return new class extends Migration
             $table->text('SpecialRequests')->nullable();
             $table->text('OwnerResponse')->nullable();
 
-            $table->foreign('SeekerID')->references('SeekerID')->on('seekers')->cascadeOnDelete();
-            $table->foreign('AccommodationID')->references('AccommodationID')->on('accommodations')->cascadeOnDelete();
+            // Fix foreign keys
+            $table->foreign('SeekerID')->references('UserID')->on('seekers')->onDelete('cascade');
+            $table->foreign('AccommodationID')->references('AccommodationID')->on('accommodations')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */
