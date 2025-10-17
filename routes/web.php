@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,4 +50,21 @@ Route::get('/boardinghunter/home/showinquiries', function () {
 Route::get('/boardinghunter/home/profile', function () {
     return view('profiles/showprofile');
 })->name('profile.show');
+<<<<<<< Updated upstream
 >>>>>>> df8fd1e0a75bf37a3f73aca1da97278d268a4c67
+=======
+
+// Admin routes (using admin layout)
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        // Simple dashboard with user statistics
+        $totalUsers = \App\Models\User::count();
+        $roomOwners = \App\Models\User::where('Role', 'roomOwner')->count();
+        $roomSeekers = \App\Models\User::where('Role', 'roomSeeker')->count();
+        
+        return view('admin.dashboard', compact('totalUsers', 'roomOwners', 'roomSeekers'));
+    })->name('admin.dashboard');
+    
+    Route::resource('users', UserController::class);
+});
+>>>>>>> Stashed changes

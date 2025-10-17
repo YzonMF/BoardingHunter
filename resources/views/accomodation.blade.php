@@ -6,6 +6,6 @@
 <link rel="stylesheet" href="{{ asset('css/inquiries.css') }}">
 @endsection
 
-@section('')
+@section('content')
 
 @endsection

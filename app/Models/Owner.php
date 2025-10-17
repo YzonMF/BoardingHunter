@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Owner extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Admin extends Model
 
     protected $fillable = [
         'UserID',
-        'AccessLevel'
+        'BusinessName'
     ];
 
     public function user()
