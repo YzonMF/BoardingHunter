@@ -1,0 +1,60 @@
+[33mb20b703[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mUserModel[m[33m, [m[1;31morigin/UserModel[m[33m)[m HEAD@{0}: reset: moving to b20b7030e7da23d54ca6a2200db8c5ea264f05d8
+[33m3105848[m HEAD@{1}: commit: wego
+[33mb20b703[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mUserModel[m[33m, [m[1;31morigin/UserModel[m[33m)[m HEAD@{2}: commit: bwa
+[33mc96eece[m[33m ([m[1;31morigin/dbViews[m[33m, [m[1;32mdbViews[m[33m)[m HEAD@{3}: checkout: moving from dbViews to UserModel
+[33mc96eece[m[33m ([m[1;31morigin/dbViews[m[33m, [m[1;32mdbViews[m[33m)[m HEAD@{4}: commit: view users
+[33m3f80a39[m HEAD@{5}: commit: manage users,users index, admin view
+[33m9e3a422[m HEAD@{6}: checkout: moving from temp to dbViews
+[33m9e0095a[m[33m ([m[1;31morigin/temp[m[33m, [m[1;32mtemp[m[33m)[m HEAD@{7}: reset: moving to HEAD
+[33m9e0095a[m[33m ([m[1;31morigin/temp[m[33m, [m[1;32mtemp[m[33m)[m HEAD@{8}: commit: Update and clean up migration files (accommodations, amenities, bookings, reviews, etc.)
+[33mb313e99[m HEAD@{9}: commit: initial home
+[33m1b60622[m HEAD@{10}: pull --rebase origin temp (finish): returning to refs/heads/temp
+[33m1b60622[m HEAD@{11}: pull --rebase origin temp (pick): initital home,inquiries,profile,dropdown,header,footer
+[33m3c5d8dc[m HEAD@{12}: pull --rebase origin temp (start): checkout 3c5d8dc20523e7076ece255f989f904ecf6f49e3
+[33m3de58ab[m HEAD@{13}: checkout: moving from temp to temp
+[33m3de58ab[m HEAD@{14}: commit: initial header,footer,navs
+[33m8eeea10[m HEAD@{15}: checkout: moving from temp to temp
+[33m8eeea10[m HEAD@{16}: commit: initital home,inquiries,profile,dropdown,header,footer
+[33m845583c[m HEAD@{17}: checkout: moving from temp to temp
+[33m845583c[m HEAD@{18}: checkout: moving from master to temp
+[33m99a9bdb[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{19}: commit: env pala un
+[33m5673acf[m HEAD@{20}: commit: revert
+[33m1acb9cf[m HEAD@{21}: commit: hh
+[33mef6456a[m HEAD@{22}: commit: Revert commit 637cca3: remove view files
+[33m570b1f2[m HEAD@{23}: commit: temp: work in progress
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{24}: checkout: moving from master to master
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{25}: checkout: moving from temp to master
+[33m845583c[m HEAD@{26}: commit: mwehe
+[33md5a728e[m HEAD@{27}: checkout: moving from temp to temp
+[33md5a728e[m HEAD@{28}: checkout: moving from master to temp
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{29}: checkout: moving from temp to master
+[33md5a728e[m HEAD@{30}: checkout: moving from fresh to temp
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{31}: reset: moving to origin/Master
+[33m8262b08[m HEAD@{32}: commit (initial): reset
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{33}: reset: moving to HEAD
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{34}: reset: moving to origin/master
+[33m9cf5685[m HEAD@{35}: checkout: moving from temp to master
+[33md5a728e[m HEAD@{36}: commit: layouted login and register
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{37}: checkout: moving from master to temp
+[33m9cf5685[m HEAD@{38}: checkout: moving from temp to master
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m HEAD@{39}: pull origin master: Fast-forward
+[33mf4c7807[m HEAD@{40}: checkout: moving from temp to temp
+[33mf4c7807[m HEAD@{41}: pull origin master: Fast-forward
+[33m637cca3[m HEAD@{42}: checkout: moving from master to temp
+[33m9cf5685[m HEAD@{43}: commit: edited seeker id
+[33mc8baf82[m HEAD@{44}: pull origin temp: Fast-forward
+[33m73193c7[m HEAD@{45}: checkout: moving from temp to master
+[33m637cca3[m HEAD@{46}: commit: initial layouts
+[33md49dcfd[m HEAD@{47}: checkout: moving from temp to temp
+[33md49dcfd[m HEAD@{48}: rebase (finish): returning to refs/heads/temp
+[33md49dcfd[m HEAD@{49}: rebase (start): checkout master
+[33md49dcfd[m HEAD@{50}: checkout: moving from master to temp
+[33m73193c7[m HEAD@{51}: checkout: moving from temp to master
+[33md49dcfd[m HEAD@{52}: commit: layouts
+[33m73193c7[m HEAD@{53}: checkout: moving from master to temp
+[33m73193c7[m HEAD@{54}: commit: nye
+[33ma977393[m HEAD@{55}: commit: gawin nio na senyu tapos na ang users migration
+[33m18794b4[m HEAD@{56}: commit: gawin nio na senyu tapos na ang users migration
+[33meeb3f6c[m HEAD@{57}: commit: inupdate ko san env file na tan sabali nakaset ay database
+[33ma413478[m HEAD@{58}: commit: inupdate ko san env file na tan sabali nakaset ay database
+[33m42b32fb[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{59}: clone: from https://github.com/YzonMF/BoardingHunter.git

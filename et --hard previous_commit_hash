@@ -1,0 +1,28 @@
+[33md7d6098[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mussermodel[m[33m, [m[1;31morigin/ussermodel[m[33m, [m[1;32musermodel[m[33m)[m e
+[33mb20b703[m[33m ([m[1;31morigin/UserModel[m[33m)[m bwa
+[33mc96eece[m[33m ([m[1;31morigin/dbViews[m[33m, [m[1;32mdbViews[m[33m)[m view users
+[33m3f80a39[m manage users,users index, admin view
+[33m9e3a422[m message
+[33m9b29ced[m Add photos table migration
+[33m908bab1[m message
+[33mdf8fd1e[m message
+[33mb5b1587[m Initial commit
+[33m4aa5a34[m message
+[33m361cab8[m message
+[33m0751c42[m message
+[33mb313e99[m initial home
+[33m1b60622[m initital home,inquiries,profile,dropdown,header,footer
+[33m3c5d8dc[m natatae ako
+[33m845583c[m mwehe
+[33md5a728e[m layouted login and register
+[33mb3fc19c[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mfresh[m[33m)[m Update 2025_09_05_082046_create_create__reviews_table.php
+[33mf4c7807[m Update 2025_09_03_104256_create_room_owners_table.php
+[33mc8baf82[m labadeeh
+[33m637cca3[m initial layouts
+[33md49dcfd[m layouts
+[33m73193c7[m nye
+[33ma977393[m gawin nio na senyu tapos na ang users migration
+[33m18794b4[m gawin nio na senyu tapos na ang users migration
+[33meeb3f6c[m inupdate ko san env file na tan sabali nakaset ay database
+[33ma413478[m inupdate ko san env file na tan sabali nakaset ay database
+[33m42b32fb[m[33m ([m[1;31morigin/master[m[33m)[m initial proect template
