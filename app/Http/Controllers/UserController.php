@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Display a list of all users.
+     * Display a listing of all users.
      */
     public function index()
     {
@@ -21,10 +21,12 @@ class UserController extends Controller
         
         return view('users.index', compact('users'));
     }
-
-    public function show(User $user)
+    
+    public function show(User $users)
     {
-        $user->load(['admin', 'owner', 'seeker']);
+        $users->load(['admin', 'owner', 'seeker']);
         return view('users.show', compact('user'));
     }
+
+
 }

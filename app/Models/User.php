@@ -35,6 +35,7 @@ class User extends Authenticatable
     public function owner()
     {
         return $this->hasOne(Owner::class, 'UserID');
+
     }
 
     public function seeker()
