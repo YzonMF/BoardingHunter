@@ -33,6 +33,7 @@ return new class extends Migration
             $table->timestamp('ReviewDate')->useCurrent();
         });
     }
+    
 
     public function down(): void
     {

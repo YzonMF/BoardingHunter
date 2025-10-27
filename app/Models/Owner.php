@@ -10,9 +10,8 @@ class Owner extends Model
     use HasFactory;
 
     protected $primaryKey = 'UserID';
-    
     public $incrementing = false;
-
+    
     protected $fillable = [
         'UserID',
         'BusinessName'
@@ -21,5 +20,10 @@ class Owner extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'UserID');
+    }
+
+    public function accommodations()
+    {
+        return $this->hasMany(Accommodation::class, 'OwnerID', 'UserID');
     }
 }

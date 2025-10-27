@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
             $table->string('AccessLevel', 50)->default('standard');
         });
-
     }
 
     /**

@@ -56,3 +56,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class);
 });
 
+use App\Http\Controllers\AccommodationController;
+
+Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');

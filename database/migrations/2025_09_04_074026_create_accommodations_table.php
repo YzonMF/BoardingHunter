@@ -11,6 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('photos', function (Blueprint $table) {
+            $table->id('PhotoID');
+            $table->string('FilePathURL', 255);
+            $table->string('Caption', 255)->nullable();
+        });
+
          Schema::create('accommodations', function (Blueprint $table) {
             $table->bigIncrements('AccommodationID');
             $table->unsignedBigInteger('OwnerID');
@@ -20,6 +26,12 @@ return new class extends Migration
             $table->string('Location');
             $table->decimal('PricePerNight', 10, 2);
             $table->decimal('PricePerMonth', 10, 2);
+            $table->unsignedBiginteger('PhotoID');
+
+            $table->foreign('PhotoID')
+                ->references('PhotoID')
+                ->on('photos')
+                ->onDelete('cascade');
 
             $table->foreign('OwnerID')
                   ->references('UserID')
@@ -27,17 +39,6 @@ return new class extends Migration
                   ->onDelete('cascade');
         });
 
-        Schema::create('photos', function (Blueprint $table) {
-        $table->id('PhotoID');
-        $table->unsignedBigInteger('AccommodationID');
-        $table->string('FilePathURL', 255);
-        $table->string('Caption', 255)->nullable();
-        
-        $table->foreign('AccommodationID')
-              ->references('AccommodationID')
-              ->on('accommodations')
-              ->onDelete('cascade');
-    });
     }
 
     /**
