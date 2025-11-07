@@ -41,6 +41,9 @@ Route::get('/boardinghunter/home/profile', function () {
     return view('profiles/showprofile');
 })->name('profile.show');
 
+// Reviews
+Route::resource('reviews', \App\Http\Controllers\CreateReviewController::class);
+
 
 // Admin routes (using admin layout)
 Route::prefix('admin')->group(function () {
