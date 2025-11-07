@@ -17,13 +17,17 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->UserID }}</td>
-                    <td>{{ $user->fullname }}</td>
+                    <td><a href="{{ route('users.show', $user->UserID) }}">{{ $user->UserID }}</a></td>
+                    <td><a href="{{ route('users.show', $user->UserID) }}">{{ $user->fullname }}</a></td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->contactnum }}</td>
-                    <td>{{ $user->Role }}</td>
+                    <td>{{ $user->role }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
+    <div>
+        <a href="/users/create">Add User</a>
+    </div>
 @endsection

@@ -1,8 +1,9 @@
 <?php
-
 use App\Http\Controllers\UserController;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccommodationController;
+use GuzzleHttp\Promise\Create;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ Route::get('/forgotpassword', function () {
 /*ui*/
 
 // Inquiries
-Route::get('/boardinghunter/home/showinquiries', function () {
+Route::get('/inquiries', function () {
     return view('inquiries/showinquiries');
 })->name('inquiries.show');
 
@@ -41,21 +42,25 @@ Route::get('/boardinghunter/home/profile', function () {
     return view('profiles/showprofile');
 })->name('profile.show');
 
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+})->name('profile.show');
 
-// Admin routes (using admin layout)
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        // Simple dashboard with user statistics
-        $totalUsers = \App\Models\User::count();
-        $roomOwners = \App\Models\User::where('Role', 'roomOwner')->count();
-        $roomSeekers = \App\Models\User::where('Role', 'roomSeeker')->count();
-        
-        return view('admin.dashboard', compact('totalUsers', 'roomOwners', 'roomSeekers'));
-    })->name('admin.dashboard');
-    
-    Route::resource('users', UserController::class);
-});
 
-use App\Http\Controllers\AccommodationController;
+// User Routes - admin
+// get-users
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/create', [UserController::class, 'create']);
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+// posts-users
+Route::post('/users', [UserController::class, 'store']);
+
+// put-users
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+// delete-users
+Route::delete('/users/{user}',[UserController::class,'destroy'])->name('users.destroy');
 
 Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');
