@@ -49,10 +49,13 @@ Route::prefix('admin')->group(function () {
         $totalUsers = \App\Models\User::count();
         $roomOwners = \App\Models\User::where('Role', 'roomOwner')->count();
         $roomSeekers = \App\Models\User::where('Role', 'roomSeeker')->count();
-        
+
         return view('admin.dashboard', compact('totalUsers', 'roomOwners', 'roomSeekers'));
     })->name('admin.dashboard');
-    
+
     Route::resource('users', UserController::class);
 });
+
+// Reviews routes
+Route::resource('reviews', \App\Http\Controllers\CreateReviewController::class);
 
