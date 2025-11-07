@@ -7,9 +7,7 @@ use App\Http\Requests\StoreCreate_ReviewRequest;
 use App\Http\Requests\UpdateCreate_ReviewRequest;
 
 class CreateReviewController extends Controller
-{
-    /**
-     * Display a listing of the resource.
+ {
     public function index()
     {
         $reviews = Create_Review::with(['seeker', 'accommodation'])->get();
