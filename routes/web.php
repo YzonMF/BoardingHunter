@@ -43,19 +43,37 @@ Route::get('/boardinghunter/home/profile', function () {
 
 
 // Admin routes (using admin layout)
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        // Simple dashboard with user statistics
-        $totalUsers = \App\Models\User::count();
-        $roomOwners = \App\Models\User::where('Role', 'roomOwner')->count();
-        $roomSeekers = \App\Models\User::where('Role', 'roomSeeker')->count();
-        
-        return view('admin.dashboard', compact('totalUsers', 'roomOwners', 'roomSeekers'));
-    })->name('admin.dashboard');
-    
-    Route::resource('users', UserController::class);
-});
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+// posts-users
+Route::post('/users', [UserController::class, 'store']);
+
+// put-users
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+// delete-users
+Route::delete('/users/{user}',[UserController::class,'destroy'])->name('users.destroy');
+
+
 
 use App\Http\Controllers\AccommodationController;
 
 Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');
+
+Route::get('/Accommodation', [AccommodationController::class, 'index'])->name('Accommodation.index');
+Route::get('/Accommodation/create', [AccommodationController::class, 'create'])->name('Accommodation.create');
+Route::get('/Accommodation/{Accommodation}', [AccommodationController::class, 'show'])->name('Accommodation.show');
+Route::get('/Accommodation/{Accommodation}/edit', [AccommodationController::class, 'edit'])->name('Accommodation.edit');
+
+// posts-users
+Route::post('/Accommodation', [UserController::class, 'store']);
+
+// put-users
+Route::put('/Accommodation/{Accommodation}', [UserController::class, 'update'])->name('Accommodation.update');
+
+// delete-users
+Route::delete('/Accommodation/{Accommodation}',[UserController::class,'destroy'])->name('Accommodation.destroy');
+
