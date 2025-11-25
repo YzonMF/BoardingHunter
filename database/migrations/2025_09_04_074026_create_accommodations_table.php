@@ -9,38 +9,40 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('photos', function (Blueprint $table) {
-            $table->id('PhotoID');
-            $table->string('FilePathURL', 255);
-            $table->string('Caption', 255)->nullable();
-        });
+    // In your migration file
+public function up(): void
+{
 
-         Schema::create('accommodations', function (Blueprint $table) {
-            $table->bigIncrements('AccommodationID');
-            $table->unsignedBigInteger('OwnerID');
-            $table->string('Name', 100);
-            $table->enum('Type',['Boarding','Transient','Hotel']);
-            $table->string('Description');
-            $table->string('Location');
-            $table->decimal('PricePerNight', 10, 2);
-            $table->decimal('PricePerMonth', 10, 2);
-            $table->unsignedBiginteger('PhotoID');
+    Schema::create('accommodations', function (Blueprint $table) {
+        $table->bigIncrements('AccommodationID');
+        $table->unsignedBigInteger('OwnerID');
+        $table->string('Name', 100);
+        $table->enum('Type', ['Boarding', 'Transient', 'Hotel']);
+        $table->text('Description');
+        $table->string('Location');
+        $table->decimal('PricePerNight', 10, 2);
+        $table->decimal('PricePerMonth', 10, 2);
+        $table->string('status')->default('active');
+        $table->timestamp('date_created')->usecurrent();
 
-            $table->foreign('PhotoID')
-                ->references('PhotoID')
-                ->on('photos')
-                ->onDelete('cascade');
+        $table->foreign('OwnerID')
+              ->references('UserID')
+              ->on('owners')
+              ->onDelete('cascade');
+    });
 
-            $table->foreign('OwnerID')
-                  ->references('UserID')
-                  ->on('owners')
-                  ->onDelete('cascade');
-        });
-
-    }
-
+    Schema::create('photos', function (Blueprint $table) {
+        $table->bigIncrements('PhotoID');
+        $table->unsignedBigInteger('AccommodationID');
+        $table->string('FilePathURL', 255);
+        $table->string('Caption', 255)->nullable();
+        
+        $table->foreign('AccommodationID')
+            ->references('AccommodationID')
+            ->on('accommodations')
+            ->onDelete('cascade');
+    });
+}
     /**
      * Reverse the migrations.
      */

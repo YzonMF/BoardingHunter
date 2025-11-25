@@ -9,17 +9,32 @@ class Accommodation extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'AccommodationID';
+    
     protected $fillable = [
-        'room_owner_id',
-        'name',
-        'address',
-        'price',
-        'description',
+        'OwnerID',
+        'Name',
+        'Type',
+        'Description',
+        'Location',
+        'PricePerNight',
+        'PricePerMonth',
         'status'
     ];
 
     public function owner()
     {
-        return $this->belongsTo(Owner::class, 'room_owner_id');
+        return $this->belongsTo(Owner::class, 'OwnerID', 'UserID');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'AccommodationID');
+    }
+    
+    // Helper method to get first photo or default
+    public function getFirstPhoto()
+    {
+        return $this->photos->first() ?? null;
     }
 }

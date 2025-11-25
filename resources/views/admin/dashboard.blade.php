@@ -54,20 +54,6 @@
 <div class="container">
     <h1 class="mb-4">Admin Dashboard</h1>
     
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number">{{ $totalUsers }}</div>
-            <div class="stat-label">Total Users</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $roomOwners }}</div>
-            <div class="stat-label">Room Owners</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $roomSeekers }}</div>
-            <div class="stat-label">Room Seekers</div>
-        </div>
-    </div>
     
     <div class="quick-actions">
         <h3 class="mb-3">Quick Actions</h3>

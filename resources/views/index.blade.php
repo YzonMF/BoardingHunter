@@ -31,7 +31,7 @@
         <div>
             <!-- select type-->
             <label for="type-accomodation">Accomodation</label>
-            <select name="type-accomodation" id="type-accomodation">
+            <select name="$accomodation->type" id="type-accomodation">
                 <option value="Hotel">Hotel</option>
                 <option value="Transient">Transient</option>
                 <option value="Boarding">Boarding</option>

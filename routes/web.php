@@ -44,13 +44,13 @@ Route::get('/boardinghunter/home/profile', function () {
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
-})->name('profile.show');
+})->name('admin.dashboard');
 
 
 // User Routes - admin
 // get-users
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/create', [UserController::class, 'create']);
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
@@ -62,5 +62,7 @@ Route::put('/users/{user}', [UserController::class, 'update'])->name('users.upda
 
 // delete-users
 Route::delete('/users/{user}',[UserController::class,'destroy'])->name('users.destroy');
+
+
 
 Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');
