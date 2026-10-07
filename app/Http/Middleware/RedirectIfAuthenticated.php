@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,8 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // Admins land on their dashboard, everyone else on the member home page.
+                return redirect(Auth::guard($guard)->user()->role === 'admin' ? route('admin.dashboard') : route('boardinghunter.home'));
             }
         }
 

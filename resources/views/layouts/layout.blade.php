@@ -25,13 +25,18 @@
             <div class="quick-links">
                 <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
                 <a href="{{ route('community.index') }}" class="{{ request()->routeIs('community.*') ? 'active' : '' }}">Community</a>
-            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
-            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
                 @auth
-                    <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
-                    <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
-                    <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
-                    <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
+                    @if(Auth::user()->role !== 'admin')
+                        <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
+                        <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
+                        <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
+                        <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
+                    @endif
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                    @endif
                     <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
                 @endauth
             </div>
@@ -44,11 +49,15 @@
         <div class="nav-links">
             <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
             <a href="{{ route('community.index') }}" class="{{ request()->routeIs('community.*') ? 'active' : '' }}">Community</a>
+            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
             @auth
-                <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
-                <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
-                <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
-                <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
+                @if(Auth::user()->role !== 'admin')
+                    <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
+                    <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
+                    <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
+                    <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
+                @endif
                 <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
                 @if(Auth::user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}">Admin Dashboard</a>

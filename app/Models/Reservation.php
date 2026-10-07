@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Reservation extends Model
 {
-    use HasFactory;
-
     /** How many days an approved reservation holds the room (admin setting, 1-60). */
     public static function holdDays(): int
     {
