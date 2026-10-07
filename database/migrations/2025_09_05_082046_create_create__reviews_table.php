@@ -16,7 +16,6 @@ return new class extends Migration
             // Foreign keys
             $table->unsignedBigInteger('SeekerID');
             $table->unsignedBigInteger('AccommodationID');
-            $table->text('review');
 
             $table->foreign('SeekerID')
                   ->references('UserID')
@@ -31,6 +30,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('Rating');
             $table->text('Comment')->nullable();
             $table->timestamp('ReviewDate')->useCurrent();
+
+            // A seeker reviews a room once (they can edit it).
+            $table->unique(['SeekerID', 'AccommodationID']);
         });
     }
     

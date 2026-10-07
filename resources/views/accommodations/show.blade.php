@@ -60,6 +60,64 @@
 
             <hr>
 
+            @php
+                $reviews = $accommodation->reviews->sortByDesc('ReviewDate');
+                $avgRating = $reviews->avg('Rating');
+                $myReview = Auth::check() ? $reviews->firstWhere('SeekerID', Auth::id()) : null;
+                $canReview = Auth::check() && Auth::user()->role === 'roomSeeker'
+                    && \App\Models\Booking::where('SeekerID', Auth::id())
+                        ->where('AccommodationID', $accommodation->AccommodationID)
+                        ->where('Status', 'Confirmed')->exists();
+            @endphp
+
+            <h5>Reviews
+                @if($reviews->isNotEmpty())
+                    <small>&mdash; {{ number_format($avgRating, 1) }} / 5 ({{ $reviews->count() }})</small>
+                @endif
+            </h5>
+
+            @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
+            @error('review') <div class="text-danger mb-2">{{ $message }}</div> @enderror
+
+            @forelse($reviews as $review)
+                <div style="border-bottom:1px solid #eee; padding:8px 0;">
+                    <strong>{{ $review->seeker->fullname ?? 'Former user' }}</strong>
+                    <span title="{{ $review->Rating }} out of 5">{{ str_repeat('★', $review->Rating) }}{{ str_repeat('☆', 5 - $review->Rating) }}</span>
+                    <small class="text-muted">{{ $review->ReviewDate->format('M d, Y') }}</small>
+                    @if($review->Comment)<p class="mb-1">{{ $review->Comment }}</p>@endif
+                    @auth
+                        @if(Auth::id() === $review->SeekerID || Auth::user()->role === 'admin')
+                            <form action="{{ route('reviews.destroy', $review->ReviewID) }}" method="POST" style="display:inline;"
+                                  onsubmit="return confirm('Delete this review?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
+            @empty
+                <p class="text-muted">No reviews yet.</p>
+            @endforelse
+
+            @if($canReview)
+                <form action="{{ route('reviews.store', $accommodation->AccommodationID) }}" method="POST" style="margin-top:12px;">
+                    @csrf
+                    <strong>{{ $myReview ? 'Update your review' : 'Rate your stay' }}</strong><br>
+                    <select name="Rating" required>
+                        @for($i = 5; $i >= 1; $i--)
+                            <option value="{{ $i }}" {{ (int) old('Rating', $myReview->Rating ?? 5) === $i ? 'selected' : '' }}>{{ $i }} {{ str_repeat('★', $i) }}</option>
+                        @endfor
+                    </select>
+                    <textarea name="Comment" class="form-control" rows="3" maxlength="2000" placeholder="Tell others about your stay (optional)">{{ old('Comment', $myReview->Comment ?? '') }}</textarea>
+                    @error('Rating') <div class="text-danger">{{ $message }}</div> @enderror
+                    @error('Comment') <div class="text-danger">{{ $message }}</div> @enderror
+                    <button type="submit">{{ $myReview ? 'Update review' : 'Submit review' }}</button>
+                </form>
+            @endif
+
+            <hr>
+
             <h5>Pricing</h5>
             <div class="row">
                 <div class="col-md-6">

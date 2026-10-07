@@ -50,6 +50,11 @@ class Accommodation extends Model
         return $this->hasMany(Amenity::class, 'AccommodationID', 'AccommodationID');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'AccommodationID', 'AccommodationID');
+    }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'AccommodationID', 'AccommodationID');

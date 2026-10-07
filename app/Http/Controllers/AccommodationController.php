@@ -71,7 +71,7 @@ public function home(Request $request)  // Add Request $request here
 public function show($id)
 {
     Reservation::expireOverdue();
-    $accommodation = Accommodation::with(['photos', 'owner', 'amenities'])->findOrFail($id);
+    $accommodation = Accommodation::with(['photos', 'owner', 'amenities', 'reviews.seeker'])->findOrFail($id);
     return view('accommodations.show', compact('accommodation'));
 }
 }

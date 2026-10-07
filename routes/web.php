@@ -8,6 +8,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/reservations/{reservation}/book', [BookingController::class, 'storeFromReservation'])->name('reservations.book');
         Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
     });
+
+    // Reviews: seekers rate rooms they booked; seekers/admins can delete
+    Route::post('/accommodations/{accommodation}/reviews', [ReviewController::class, 'store'])
+        ->middleware('role:roomSeeker')->name('reviews.store');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])
+        ->middleware('role:roomSeeker,admin')->name('reviews.destroy');
 
     // Notifications (any signed-in user)
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
