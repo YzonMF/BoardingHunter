@@ -16,9 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('SeekerID');
             $table->unsignedBigInteger('AccommodationID');
             $table->date('CheckInDate');
-            $table->date('DueDate');
             $table->timestamp('ReservationDate')->useCurrent();
-            $table->enum('Status', ['Pending','Confirmed','Rejected','Cancelled'])->default('Pending');
+            // Set when the owner approves; the hold lasts 7 days from approval.
+            $table->timestamp('ApprovedAt')->nullable();
+            $table->timestamp('ExpiresAt')->nullable();
+            $table->enum('Status', ['Pending','Confirmed','Rejected','Cancelled','Expired','Converted'])->default('Pending');
             $table->text('SpecialRequests')->nullable();
             $table->text('OwnerResponse')->nullable();
 

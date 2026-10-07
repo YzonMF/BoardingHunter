@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accommodation extends Model
 {
+    /** Statuses in which a room can be reserved or booked. */
+    public const OPEN_STATUSES = ['active', 'available'];
+
+    /** Status a room returns to when a reservation or booking is released. */
+    public const RELEASED_STATUS = 'active';
+
     protected $primaryKey = 'AccommodationID';
 
     // Tell Laravel you're NOT using the default timestamp columns
@@ -39,4 +45,8 @@ class Accommodation extends Model
         return $this->belongsTo(Owner::class, 'OwnerID', 'UserID');
     }
 
+    public function isOpen(): bool
+    {
+        return in_array($this->status, self::OPEN_STATUSES, true);
+    }
 }

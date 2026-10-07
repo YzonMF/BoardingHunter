@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id('BookingID');
             $table->unsignedBigInteger('SeekerID');
             $table->unsignedBigInteger('AccommodationID');
+            // Set when the booking was made from an approved reservation.
+            $table->unsignedBigInteger('ReservationID')->nullable();
+            $table->date('CheckInDate');
+            $table->date('CheckOutDate')->nullable();
             $table->timestamp('BookingDate')->useCurrent();
             $table->enum('Status', ['Pending','Confirmed','Rejected','Cancelled'])->default('Pending');
             $table->text('SpecialRequests')->nullable();
@@ -22,6 +26,7 @@ return new class extends Migration
 
             $table->foreign('SeekerID')->references('UserID')->on('seekers')->cascadeOnDelete();
             $table->foreign('AccommodationID')->references('AccommodationID')->on('accommodations')->cascadeOnDelete();
+            $table->foreign('ReservationID')->references('ReservationID')->on('reservations')->nullOnDelete();
         });
     }
 

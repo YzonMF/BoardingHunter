@@ -32,7 +32,7 @@
                 <i class="bi bi-geo-alt"></i> {{ $accommodation->Location }}
             </p>
 
-            <span class="badge bg-{{ $accommodation->status === 'available' ? 'success' : ($accommodation->status === 'active' ? 'primary' : 'secondary') }} mb-3">
+            <span class="badge bg-{{ ['available' => 'success', 'active' => 'primary', 'reserved' => 'warning', 'booked' => 'danger'][$accommodation->status] ?? 'secondary' }} mb-3">
                 {{ ucfirst($accommodation->status) }}
             </span>
 
@@ -81,6 +81,56 @@
                     </form>
                 @else
                     <p class="text-muted">Only room seekers can message owners.</p>
+                @endif
+            @endauth
+
+            @auth
+                @if(Auth::user()->role === 'roomSeeker')
+                    <hr>
+
+                    <h5>Reserve or Book</h5>
+
+                    @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
+                    @if(session('error')) <div class="alert alert-danger">{{ session('error') }}</div> @endif
+                    @error('reservation') <div class="text-danger mb-2">{{ $message }}</div> @enderror
+                    @error('booking') <div class="text-danger mb-2">{{ $message }}</div> @enderror
+
+                    @if($accommodation->isOpen())
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form action="{{ route('reservations.store', $accommodation->AccommodationID) }}" method="POST" class="mb-3">
+                                    @csrf
+                                    <strong>Reserve</strong>
+                                    <p class="text-muted mb-2">
+                                        The owner must approve. Once approved, the room is held for
+                                        {{ \App\Models\Reservation::HOLD_DAYS }} days, then released if you have not booked.
+                                    </p>
+                                    <label>Check-in date</label>
+                                    <input type="date" name="CheckInDate" class="form-control mb-2" min="{{ now()->toDateString() }}" value="{{ old('CheckInDate') }}" required>
+                                    <textarea name="SpecialRequests" class="form-control mb-2" rows="2" maxlength="1000" placeholder="Special requests (optional)"></textarea>
+                                    @error('CheckInDate') <div class="text-danger mb-2">{{ $message }}</div> @enderror
+                                    <button type="submit" class="btn btn-warning">Request Reservation</button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form action="{{ route('bookings.store', $accommodation->AccommodationID) }}" method="POST" class="mb-3">
+                                    @csrf
+                                    <strong>Book now</strong>
+                                    <p class="text-muted mb-2">Book directly. The owner must accept the booking.</p>
+                                    <label>Check-in date</label>
+                                    <input type="date" name="CheckInDate" class="form-control mb-2" min="{{ now()->toDateString() }}" required>
+                                    <label>Check-out date (optional)</label>
+                                    <input type="date" name="CheckOutDate" class="form-control mb-2">
+                                    <textarea name="SpecialRequests" class="form-control mb-2" rows="2" maxlength="1000" placeholder="Special requests (optional)"></textarea>
+                                    <button type="submit" class="btn btn-success">Book Room</button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <p class="text-muted">This room is currently {{ $accommodation->status }} and cannot be reserved or booked.</p>
+                    @endif
+
+                    <p><a href="{{ route('reservations.index') }}">My reservations</a> &middot; <a href="{{ route('bookings.index') }}">My bookings</a></p>
                 @endif
             @endauth
 

@@ -44,7 +44,7 @@
                                     </span>
                                     <small class="text-muted">/night</small>
                                 </div>
-                                <span class="badge bg-{{ $acc->status === 'available' ? 'success' : 'secondary' }}">
+                                <span class="badge bg-{{ ['available' => 'success', 'reserved' => 'warning', 'booked' => 'danger'][$acc->status] ?? 'secondary' }}">
                                     {{ ucfirst($acc->status) }}
                                 </span>
                             </div>

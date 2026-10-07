@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
+use App\Models\Reservation;
 use Illuminate\Http\Request; 
 class AccommodationController extends Controller
 {
 
 public function index()
 {
+    Reservation::expireOverdue();
     $accommodations = Accommodation::with(['photos', 'owner'])
         ->orderBy('date_created', 'desc') // Use date_created, not created_at
         ->get();
@@ -17,6 +19,7 @@ public function index()
 
 public function home(Request $request)  // Add Request $request here
 {
+    Reservation::expireOverdue();
     $query = Accommodation::with(['photos', 'owner']);
 
     // Search by name or description
@@ -67,6 +70,7 @@ public function home(Request $request)  // Add Request $request here
  */
 public function show($id)
 {
+    Reservation::expireOverdue();
     $accommodation = Accommodation::with(['photos', 'owner'])->findOrFail($id);
     return view('accommodations.show', compact('accommodation'));
 }
