@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('email', 50)->unique();
             $table->string('password');
             $table->string('contactnum', 50);
-            $table->enum('Role', ['admin', 'roomSeeker', 'roomOwner']);
-            $table->timestamp('dateJoined')->useCurrent();
+            $table->enum('role', ['admin', 'roomSeeker', 'roomOwner']);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
 
   

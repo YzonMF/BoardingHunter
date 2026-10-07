@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 class Photo extends Model
 {
-    use HasFactory;
-
     protected $primaryKey = 'PhotoID';
+    
+    // Photos table doesn't have timestamps at all
+    public $timestamps = false;
     
     protected $fillable = [
         'AccommodationID',
@@ -18,6 +19,6 @@ class Photo extends Model
 
     public function accommodation()
     {
-        return $this->belongsTo(Accommodation::class, 'AccommodationID');
+        return $this->belongsTo(Accommodation::class, 'AccommodationID', 'AccommodationID');
     }
 }

@@ -59,7 +59,7 @@
         <h3 class="mb-3">Quick Actions</h3>
         <div class="action-buttons">
             <a href="{{ route('users.index') }}" class="btn btn-primary btn-lg">Manage Users</a>
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">View Main Site</a>
+            <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">View Main Site</a>
         </div>
     </div>
     

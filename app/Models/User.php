@@ -17,16 +17,14 @@ class User extends Authenticatable
         'email',
         'password',
         'contactnum',
-        'Role'
+        'role'
     ];
 
     protected $hidden = [
         'password',
     ];
     
-    protected $casts = [
-        'dateJoined' => 'datetime',
-    ];
+
 
     public function admin()
     {

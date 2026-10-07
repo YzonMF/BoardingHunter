@@ -4,32 +4,56 @@
 <div class="container mt-4">
     <h1 class="mb-4">Edit {{ $user->fullname }}</h1>
 
-    <form action="{{ route('users.update', $user) }}" method="POST" class=" justify-content-center">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('users.update', $user) }}" method="POST" class="justify-content-center">
         @csrf
         @method('PUT')
 
       <div class="mb-3">
-        <input type="text" class="form-control" id="input" name="fullname" placeholder="{{$user->fullname }}">
+        <label for="fullname" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="fullname" name="fullname" value="{{ old('fullname', $user->fullname) }}" required>
       </div>
         
       <div class="mb-3">
-        <input type="email" class="form-control" id="input" name="email" placeholder="{{ $user->email }}">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
       </div>
 
       <div class="mb-3">
-        <input type="text" class="form-control" id="input" name="contactnum" placeholder="{{ $user->contactnum }}">
+        <label for="contactnum" class="form-label">Contact Number</label>
+        <input type="text" class="form-control" id="contactnum" name="contactnum" value="{{ old('contactnum', $user->contactnum) }}" required>
       </div>
 
       <div class="mb-3">
-          <select class="form-select" name="role" aria-label="Select role">
-              <option selected disabled>{{ $user->role }}</option>
-              <option value="admins">Admin</option>
-              <option value="roomOwner">Room Owner</option>
-              <option value="roomSeeker">Room Seeker</option>
+          <label for="role" class="form-label">Role</label>
+          <select class="form-select" name="role" id="role" aria-label="Select role" required>
+              <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+              <option value="roomOwner" {{ old('role', $user->role) == 'roomOwner' ? 'selected' : '' }}>Room Owner</option>
+              <option value="roomSeeker" {{ old('role', $user->role) == 'roomSeeker' ? 'selected' : '' }}>Room Seeker</option>
           </select>
       </div>
-      <input type="submit" value="Save">
 
+      <div class="mb-3">
+        <label for="password" class="form-label">New Password <small class="text-muted">(leave blank to keep current)</small></label>
+        <input type="password" class="form-control" id="password" name="password">
+      </div>
+
+      <div class="mb-3">
+        <label for="password_confirmation" class="form-label">Confirm New Password</label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+      </div>
+
+      <input type="submit" value="Save Changes" class="btn btn-primary">
+      <a href="{{ route('users.show', $user) }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 

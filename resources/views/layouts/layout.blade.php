@@ -19,9 +19,11 @@
 
             <!-- Quick access links (shown only on wide screens) -->
             <div class="quick-links">
-                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
-                <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
+                <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+                @auth
+                    <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
+                    <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
+                @endauth
             </div>
 
             <!-- Hamburger always visible -->
@@ -30,21 +32,32 @@
 
         <!-- Dropdown menu (contains quick + minor links) -->
         <div class="nav-links">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
-            <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
-            <a href="#">Contact Us</a>
-            <a href="#">About Us</a>
-            <a href="#">Logout</a>
+            <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+            @auth
+                <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
+                <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
+                <a href="#">Contact Us</a>
+                <a href="#">About Us</a>
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                @endif
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;padding:inherit;">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}">Login</a>
+                <a href="{{ route('register.form') }}">Register</a>
+            @endauth
         </div>
     </header>
 
     @yield('content')
 
     <footer>
-        <h2>contact us</h2>
-        <p>email: boardingHunt@gmail.com</p>
-        <p>&copy; Boarding Hunter. All rights reserved.</p>
+        <h2>Contact Us</h2>
+        <p>Email: boardingHunt@gmail.com</p>
+        <p>&copy; {{ date('Y') }} Boarding Hunter. All rights reserved.</p>
     </footer>
 </body>
 </html>

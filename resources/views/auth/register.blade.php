@@ -1,40 +1,56 @@
 @extends('auth.logintemp')
 @section('content')
-    <header>
         <p>welcome</p>
-    </header>
+        <p>Register to Continue</p>
+<section class="logincontainer">
+<form action="{{ route('register') }}" method="POST" class="justify-content-center">
+    @csrf
     
-    <section class="logincontainer">
-        <form>
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" placeholder="input your username" required>
-            </div>
-            
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="input your email" required>
-            </div>
-            
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" placeholder="input your password" required>
-            </div>
-            
-            <div class="input-group">
-                <label for="role">Role</label>
-                <select id="role" name="role" required>
-                    <option value="">Select Role</option>
-                    <option value="Room Seeker">Room Seeker</option>
-                    <option value="Room Owner">Room Owner</option>
-                </select>
-            </div>
-            
-            <button type="submit" class="submitbtn">Register</button>
-            
-            <p class="login">
-                Already have an account? <a href="login">Login</a>
-            </p>
-        </form>
-    </section>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="mb-3">
+        <label for="fullname" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="fullname" name="fullname" value="{{ old('fullname') }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="password_confirmation" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="contactnum" class="form-label">Contact Number</label>
+        <input type="text" class="form-control" id="contactnum" name="contactnum" value="{{ old('contactnum') }}" required>
+    </div>
+
+    <div class="mb-3">
+        <select class="form-select" name="role" aria-label="Select role" required>
+            <option selected disabled>Select Role</option>
+            <option value="roomOwner">Room Owner</option>
+            <option value="roomSeeker">Room Seeker</option>
+        </select>
+    </div>
+
+    <input type="submit" value="Register">
+    <a href="/login">already have an account?</a>
+</form>
+</section>
 @endsection
