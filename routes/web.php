@@ -2,12 +2,14 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccommodationController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 
@@ -63,10 +65,6 @@ Route::middleware('auth')->group(function () {
             return view('boardinghunter.home');
         })->name('boardinghunter.home');
 
-        Route::get('/boardinghunter/home/profile', function () {
-            return view('profiles/showprofile');
-        })->name('profile.show');
-
         Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.show');
     });
 
@@ -96,6 +94,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])
         ->middleware('role:roomSeeker,admin')->name('reviews.destroy');
 
+    // Profile (any signed-in user)
+    Route::get('/boardinghunter/home/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
+
     // Notifications (any signed-in user)
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readall');
@@ -123,9 +126,11 @@ Route::middleware('auth')->group(function () {
 
     // Admin Only Routes
     Route::middleware('role:admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/admin/listings', [AdminController::class, 'listings'])->name('admin.listings');
+        Route::put('/admin/listings/{accommodation}/status', [AdminController::class, 'updateListingStatus'])->name('admin.listings.status');
+        Route::delete('/admin/listings/{accommodation}', [AdminController::class, 'destroyListing'])->name('admin.listings.destroy');
+        Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
 
         // User Management Routes
         Route::prefix('users')->group(function () {

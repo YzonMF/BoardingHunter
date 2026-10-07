@@ -65,9 +65,9 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'fullname' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'contactnum' => 'required',
+            'fullname' => 'required|string|max:50',
+            'email' => 'required|email|max:50|unique:users',
+            'contactnum' => 'required|string|max:50',
             'role' => 'required|in:roomOwner,roomSeeker',
             'password' => 'required|min:8|confirmed'
         ]);

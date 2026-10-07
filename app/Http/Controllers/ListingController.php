@@ -8,7 +8,6 @@ use App\Models\Photo;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 /**
@@ -97,7 +96,7 @@ class ListingController extends Controller
         }
 
         foreach ($accommodation->photos as $photo) {
-            $this->deleteFile($photo);
+            $photo->deleteStoredFile();
         }
 
         $accommodation->delete();
@@ -110,7 +109,7 @@ class ListingController extends Controller
         $this->authorizeOwner($accommodation);
         abort_unless($photo->AccommodationID === $accommodation->AccommodationID, 404);
 
-        $this->deleteFile($photo);
+        $photo->deleteStoredFile();
         $photo->delete();
 
         return back()->with('success', 'Photo removed.');
@@ -151,14 +150,6 @@ class ListingController extends Controller
                 'FilePathURL' => '/storage/' . $path,
                 'Caption' => $request->input("captions.$i"),
             ]);
-        }
-    }
-
-    /** Only files we uploaded live under /storage/; seeded photos are external URLs. */
-    private function deleteFile(Photo $photo): void
-    {
-        if (str_starts_with($photo->FilePathURL, '/storage/')) {
-            Storage::disk('public')->delete(substr($photo->FilePathURL, strlen('/storage/')));
         }
     }
 

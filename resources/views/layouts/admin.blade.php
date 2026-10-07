@@ -23,6 +23,9 @@
                 <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Main Site</a>
                 <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.index') ? 'active' : '' }}">Manage Users</a>
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('admin.listings') }}" class="{{ request()->routeIs('admin.listings*') ? 'active' : '' }}">Listings</a>
+                <a href="{{ route('admin.reports') }}" class="{{ request()->routeIs('admin.reports') ? 'active' : '' }}">Reports</a>
+                <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
             </div>
 
             <!-- Hamburger always visible -->
@@ -34,8 +37,10 @@
             <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Main Site</a>
             <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.index') ? 'active' : '' }}">Manage Users</a>
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-            <a href="#">Admin Settings</a>
-            <a href="#">System Reports</a>
+            <a href="{{ route('admin.listings') }}" class="{{ request()->routeIs('admin.listings*') ? 'active' : '' }}">Listings</a>
+            <a href="{{ route('admin.reports') }}" class="{{ request()->routeIs('admin.reports') ? 'active' : '' }}">Reports</a>
+            <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
+            <a href="{{ route('community.index') }}">Community</a>
             <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;padding:inherit;">Logout</button>

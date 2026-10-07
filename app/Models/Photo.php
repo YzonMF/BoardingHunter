@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
@@ -16,6 +17,14 @@ class Photo extends Model
         'FilePathURL',
         'Caption'
     ];
+
+    /** Deletes the uploaded file; seeded photos are external URLs and are left alone. */
+    public function deleteStoredFile(): void
+    {
+        if (str_starts_with($this->FilePathURL, '/storage/')) {
+            Storage::disk('public')->delete(substr($this->FilePathURL, strlen('/storage/')));
+        }
+    }
 
     public function accommodation()
     {
