@@ -13,6 +13,9 @@
     @yield('styles')
 </head>
 <body>
+    @auth
+        @php $unreadCount = Auth::user()->unreadNotifications()->count(); @endphp
+    @endauth
     <header>
         <div class="navbar">
             <h1>Boarding Hunter</h1>
@@ -24,6 +27,7 @@
                     <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
                     <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
                     <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
+                    <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
                     <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
                 @endauth
             </div>
@@ -39,6 +43,7 @@
                 <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
                 <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
+                <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
                 <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
                 <a href="#">Contact Us</a>
                 <a href="#">About Us</a>

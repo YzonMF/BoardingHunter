@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use App\Models\Inquiry;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,11 @@ class InquiryController extends Controller
             'Status' => 'Pending',
         ]);
 
+        User::find($accommodation->OwnerID)?->notifyApp(
+            Auth::user()->fullname . ' sent you an inquiry about ' . $accommodation->Name,
+            route('inquiries.show', ['id' => $inquiry->InquiryID])
+        );
+
         return redirect()->route('inquiries.show', ['id' => $inquiry->InquiryID])
             ->with('success', 'Your message was sent to the owner.');
     }
@@ -65,6 +71,11 @@ class InquiryController extends Controller
             'RepliedAt' => now(),
             'Status' => 'Replied',
         ]);
+
+        $inquiry->seeker->notifyApp(
+            Auth::user()->fullname . ' replied to your inquiry about ' . $inquiry->accommodation->Name,
+            route('inquiries.show', ['id' => $inquiry->InquiryID])
+        );
 
         return redirect()->route('inquiries.show', ['id' => $inquiry->InquiryID])
             ->with('success', 'Reply sent.');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Accommodation;
 use App\Models\Booking;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,6 +66,11 @@ class BookingController extends Controller
             'Status' => 'Pending',
         ]);
 
+        User::find($accommodation->OwnerID)?->notifyApp(
+            Auth::user()->fullname . ' requested to book ' . $accommodation->Name,
+            route('bookings.index')
+        );
+
         return redirect()->route('bookings.index')->with('success', 'Booking requested. Waiting for the owner to accept.');
     }
 
@@ -87,6 +93,11 @@ class BookingController extends Controller
                 ->with('error', 'This reservation is no longer active, so it cannot be booked.');
         }
 
+        User::find($reservation->accommodation->OwnerID)?->notifyApp(
+            Auth::user()->fullname . ' booked ' . $reservation->accommodation->Name . ' from their reservation',
+            route('bookings.index')
+        );
+
         return redirect()->route('bookings.index')->with('success', 'Room booked and confirmed.');
     }
 
@@ -96,6 +107,10 @@ class BookingController extends Controller
         Reservation::expireOverdue();
 
         $accepted = $booking->accept($request->input('OwnerResponse'));
+
+        if ($accepted) {
+            $booking->seeker->notifyApp('Your booking for ' . $booking->accommodation->Name . ' was accepted.', route('bookings.index'));
+        }
 
         return back()->with(
             $accepted ? 'success' : 'error',
@@ -109,6 +124,10 @@ class BookingController extends Controller
 
         $rejected = $booking->reject($request->input('OwnerResponse'));
 
+        if ($rejected) {
+            $booking->seeker->notifyApp('Your booking for ' . $booking->accommodation->Name . ' was rejected.', route('bookings.index'));
+        }
+
         return back()->with($rejected ? 'success' : 'error', $rejected ? 'Booking rejected.' : 'Only pending bookings can be rejected.');
     }
 
@@ -117,6 +136,13 @@ class BookingController extends Controller
         abort_unless($booking->SeekerID === Auth::id(), 403);
 
         $cancelled = $booking->cancel();
+
+        if ($cancelled) {
+            User::find($booking->accommodation->OwnerID)?->notifyApp(
+                Auth::user()->fullname . ' cancelled their booking for ' . $booking->accommodation->Name,
+                route('bookings.index')
+            );
+        }
 
         return back()->with($cancelled ? 'success' : 'error', $cancelled ? 'Booking cancelled.' : 'This booking can no longer be cancelled.');
     }

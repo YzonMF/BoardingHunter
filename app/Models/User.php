@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\AppNotification;
 
 class User extends Authenticatable
 {
     
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $primaryKey = 'UserID';
     
@@ -25,6 +27,12 @@ class User extends Authenticatable
     ];
     
 
+
+    /** Sends an in-app notification that links to the relevant page. */
+    public function notifyApp(string $message, string $url): void
+    {
+        $this->notify(new AppNotification($message, $url));
+    }
 
     public function admin()
     {

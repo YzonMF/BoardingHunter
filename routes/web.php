@@ -5,6 +5,7 @@ use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
 
 /*
@@ -74,6 +75,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/reservations/{reservation}/book', [BookingController::class, 'storeFromReservation'])->name('reservations.book');
         Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
     });
+
+    // Notifications (any signed-in user)
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readall');
+    Route::post('/notifications/{id}/open', [NotificationController::class, 'open'])->name('notifications.open');
 
     // Owner listing management
     Route::middleware('role:roomOwner')->prefix('my-listings')->name('listings.')->group(function () {

@@ -98,7 +98,21 @@ class Reservation extends Model
     /** Frees the room and marks the reservation as lapsed. */
     public function expire(): bool
     {
-        return $this->release('Expired', ['Confirmed']);
+        if (!$this->release('Expired', ['Confirmed'])) {
+            return false;
+        }
+
+        $room = $this->accommodation;
+        $this->seeker?->notifyApp(
+            'Your reservation for ' . $room->Name . ' expired because it was not booked within ' . self::HOLD_DAYS . ' days.',
+            route('reservations.index')
+        );
+        User::find($room->OwnerID)?->notifyApp(
+            'The reservation by ' . $this->seeker?->fullname . ' for ' . $room->Name . ' expired. The room is available again.',
+            route('reservations.index')
+        );
+
+        return true;
     }
 
     /**

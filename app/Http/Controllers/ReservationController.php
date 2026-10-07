@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,6 +66,11 @@ class ReservationController extends Controller
             'Status' => 'Pending',
         ]);
 
+        User::find($accommodation->OwnerID)?->notifyApp(
+            Auth::user()->fullname . ' requested a reservation for ' . $accommodation->Name,
+            route('reservations.index')
+        );
+
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation requested. The owner needs to approve it; the ' . Reservation::HOLD_DAYS . '-day hold starts on approval.');
     }
@@ -75,6 +81,15 @@ class ReservationController extends Controller
         Reservation::expireOverdue();
 
         $approved = $reservation->approve($request->input('OwnerResponse'));
+
+        if ($approved) {
+            $reservation->refresh();
+            $reservation->seeker->notifyApp(
+                'Your reservation for ' . $reservation->accommodation->Name . ' was approved. It is held until '
+                    . $reservation->ExpiresAt->format('M d, Y h:i A') . '.',
+                route('reservations.index')
+            );
+        }
 
         return back()->with(
             $approved ? 'success' : 'error',
@@ -90,6 +105,13 @@ class ReservationController extends Controller
 
         $rejected = $reservation->reject($request->input('OwnerResponse'));
 
+        if ($rejected) {
+            $reservation->seeker->notifyApp(
+                'Your reservation for ' . $reservation->accommodation->Name . ' was rejected.',
+                route('reservations.index')
+            );
+        }
+
         return back()->with($rejected ? 'success' : 'error', $rejected ? 'Reservation rejected.' : 'Only pending reservations can be rejected.');
     }
 
@@ -98,6 +120,13 @@ class ReservationController extends Controller
         abort_unless($reservation->SeekerID === Auth::id(), 403);
 
         $cancelled = $reservation->cancel();
+
+        if ($cancelled) {
+            User::find($reservation->accommodation->OwnerID)?->notifyApp(
+                Auth::user()->fullname . ' cancelled their reservation for ' . $reservation->accommodation->Name,
+                route('reservations.index')
+            );
+        }
 
         return back()->with($cancelled ? 'success' : 'error', $cancelled ? 'Reservation cancelled.' : 'This reservation can no longer be cancelled.');
     }
