@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('owners', function (Blueprint $table) {
         $table->unsignedBigInteger('UserID')->primary(); 
         $table->foreign('UserID')->references('UserID')->on('users')->onDelete('cascade');
-        $table->string('BusinessName', 100);
+        $table->string('BusinessName', 100)->nullable();
         });
 
     }
