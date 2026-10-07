@@ -2,6 +2,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccommodationController;
+use App\Http\Controllers\InquiryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,10 +49,14 @@ Route::middleware('auth')->group(function () {
             return view('profiles/showprofile');
         })->name('profile.show');
 
-        Route::get('/inquiries', function () {
-            return view('inquiries/showinquiries');
-        })->name('inquiries.show');
+        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.show');
     });
+
+    Route::middleware('role:roomSeeker')->post('/accommodations/{accommodation}/inquiries', [InquiryController::class, 'store'])
+        ->name('inquiries.store');
+
+    Route::middleware('role:roomOwner')->post('/inquiries/{inquiry}/reply', [InquiryController::class, 'reply'])
+        ->name('inquiries.reply');
 
     // Admin Only Routes
     Route::middleware('role:admin')->group(function () {

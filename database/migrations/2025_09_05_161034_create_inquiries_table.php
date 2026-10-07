@@ -12,17 +12,25 @@ return new class extends Migration
    public function up(): void
 {
     Schema::create('inquiries', function (Blueprint $table) {
-        $table->id('UserID'); // or better: $table->bigIncrements('UserID') if you want a custom primary key
+        $table->id('InquiryID');
         $table->unsignedBigInteger('SeekerID');
         $table->unsignedBigInteger('OwnerID');
+        $table->unsignedBigInteger('AccommodationID');
         $table->text('Message');
         $table->dateTime('DateSent');
+        $table->text('Reply')->nullable();
+        $table->dateTime('RepliedAt')->nullable();
         $table->enum('Status', ['Pending', 'Replied'])->default('Pending');
         $table->timestamps();
 
         $table->foreign('SeekerID')
                   ->references('UserID')
                   ->on('seekers')
+                  ->onDelete('cascade');
+
+        $table->foreign('AccommodationID')
+                  ->references('AccommodationID')
+                  ->on('accommodations')
                   ->onDelete('cascade');
 
         $table->foreign('OwnerID')

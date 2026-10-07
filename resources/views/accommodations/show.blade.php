@@ -62,7 +62,27 @@
             <hr>
 
             <h5>Owner</h5>
-            <p>{{ $accommodation->owner->BusinessName ?? 'N/A' }}</p>
+            <p>{{ $accommodation->owner->BusinessName ?: ($accommodation->owner->user->fullname ?? 'N/A') }}</p>
+
+            <hr>
+
+            <h5>Contact Owner</h5>
+            @guest
+                <p><a href="{{ route('login') }}">Log in</a> as a room seeker to message the owner.</p>
+            @endguest
+            @auth
+                @if(Auth::user()->role === 'roomSeeker')
+                    <form action="{{ route('inquiries.store', $accommodation->AccommodationID) }}" method="POST" class="mb-3">
+                        @csrf
+                        <textarea name="Message" class="form-control mb-2" rows="3" maxlength="1000"
+                                  placeholder="Ask the owner about this room..." required>{{ old('Message') }}</textarea>
+                        @error('Message') <div class="text-danger mb-2">{{ $message }}</div> @enderror
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                @else
+                    <p class="text-muted">Only room seekers can message owners.</p>
+                @endif
+            @endauth
 
             <small class="text-muted">
                 Listed on {{ \Carbon\Carbon::parse($accommodation->date_created)->format('F d, Y') }}
