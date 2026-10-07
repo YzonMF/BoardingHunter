@@ -10,6 +10,7 @@
     <script src="{{ asset('js/menu.js') }}"></script>
 
     <!-- Page-specific CSS -->
+    <style>.pagination{display:flex;gap:6px;list-style:none;padding:0;flex-wrap:wrap}.pagination li{padding:4px 8px;border:1px solid #ddd;border-radius:4px}.pagination .active{background:#eef5ff;font-weight:bold}</style>
     @yield('styles')
 </head>
 <body>
@@ -23,6 +24,7 @@
             <!-- Quick access links (shown only on wide screens) -->
             <div class="quick-links">
                 <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('community.index') }}" class="{{ request()->routeIs('community.*') ? 'active' : '' }}">Community</a>
                 @auth
                     <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
                     <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
@@ -39,6 +41,7 @@
         <!-- Dropdown menu (contains quick + minor links) -->
         <div class="nav-links">
             <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('community.index') }}" class="{{ request()->routeIs('community.*') ? 'active' : '' }}">Community</a>
             @auth
                 <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
                 <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>

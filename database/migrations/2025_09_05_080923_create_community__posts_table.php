@@ -21,7 +21,7 @@ return new class extends Migration
             // then add the foreign key
             $table->foreign('UserID')
                   ->references('UserID')
-                  ->on('owners')
+                  ->on('users')
                   ->onDelete('cascade');
         });
     }

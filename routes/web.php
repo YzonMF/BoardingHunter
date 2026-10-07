@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
@@ -20,6 +21,17 @@ use App\Http\Controllers\ReviewController;
 Route::get('/', [AccommodationController::class, 'home'])->name('index');
 Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');
 Route::get('/accommodations/{accommodation}', [AccommodationController::class, 'show'])->name('accommodations.show');
+
+// Community board (reading is public; /community/create must come before /community/{post})
+Route::get('/community', [CommunityController::class, 'index'])->name('community.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/community/create', [CommunityController::class, 'create'])->name('community.create');
+    Route::post('/community', [CommunityController::class, 'store'])->name('community.store');
+    Route::get('/community/{post}/edit', [CommunityController::class, 'edit'])->name('community.edit');
+    Route::put('/community/{post}', [CommunityController::class, 'update'])->name('community.update');
+    Route::delete('/community/{post}', [CommunityController::class, 'destroy'])->name('community.destroy');
+});
+Route::get('/community/{post}', [CommunityController::class, 'show'])->name('community.show');
 
 // Guest Routes
 Route::middleware('guest')->group(function () {

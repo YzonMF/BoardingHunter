@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Accommodation;
 use App\Models\Amenity;
+use App\Models\CommunityPost;
 use App\Models\Photo;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,8 +30,23 @@ class DatabaseSeeder extends Seeder
         $this->user('Admin User', 'admin@boardinghunter.test', 'admin');
         $owner = $this->user('Olivia Owner', 'owner@boardinghunter.test', 'roomOwner');
         $owner2 = $this->user('Oscar Owner', 'owner2@boardinghunter.test', 'roomOwner');
-        $this->user('Sam Seeker', 'seeker@boardinghunter.test', 'roomSeeker');
+        $seeker = $this->user('Sam Seeker', 'seeker@boardinghunter.test', 'roomSeeker');
         $this->user('Sofia Seeker', 'seeker2@boardinghunter.test', 'roomSeeker');
+
+        $samplePosts = [
+            [$seeker, 'Looking for a room near the university', 'Hi everyone! I will start classes next month and need a quiet boarding house within walking distance. Any recommendations?'],
+            [$owner, 'Tips for a smooth move-in', 'Reserve early: an approved reservation holds the room for 7 days, so book within that window. Bring a valid ID and your first month deposit.'],
+            [$owner2, 'New rooms open in Mati City', 'We just opened two new rooms with Wi-Fi and parking. Message us through the listing if you have questions.'],
+        ];
+
+        foreach ($samplePosts as $i => [$author, $title, $content]) {
+            CommunityPost::create([
+                'UserID' => $author->UserID,
+                'Title' => $title,
+                'Content' => $content,
+                'PostDate' => now()->subDays(count($samplePosts) - $i),
+            ]);
+        }
 
         $listings = [
             [$owner, 'Sunrise Boarding House', 'Boarding', 'Clean shared rooms near the university, with Wi-Fi and a common kitchen.', 'Tagum City', 450, 6500],
