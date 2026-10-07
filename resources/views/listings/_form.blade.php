@@ -64,6 +64,12 @@
     <textarea id="Description" name="Description" rows="5" maxlength="5000" required>{{ old('Description', $a->Description ?? '') }}</textarea>
     @error('Description') <div class="err">{{ $message }}</div> @enderror
 
+    @unless($a)
+        <label for="amenities">Amenities <span class="hint">(comma separated, e.g. Wi-Fi, Air conditioning, Parking)</span></label>
+        <input type="text" id="amenities" name="amenities" maxlength="1000" value="{{ old('amenities') }}">
+        @error('amenities') <div class="err">{{ $message }}</div> @enderror
+    @endunless
+
     <label for="photos">Add photos <span class="hint">(up to 10 images, JPG/PNG/WebP, 4 MB each)</span></label>
     <input type="file" id="photos" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple>
     @error('photos') <div class="err">{{ $message }}</div> @enderror

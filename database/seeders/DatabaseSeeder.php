@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Accommodation;
+use App\Models\Amenity;
 use App\Models\Photo;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -10,6 +11,13 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    /** Demo amenities per accommodation type. */
+    private const AMENITIES = [
+        'Boarding' => [['Wi-Fi', 'Free, shared'], ['Common kitchen', null], ['Laundry area', null]],
+        'Transient' => [['Air conditioning', null], ['Wi-Fi', 'Free'], ['Private bathroom', 'Hot shower']],
+        'Hotel' => [['Breakfast', 'Included'], ['Parking', 'On-site'], ['24/7 front desk', null], ['Wi-Fi', 'Free']],
+    ];
+
     /**
      * Seed the application's database with demo accounts and listings.
      * All demo accounts use the password "password".
@@ -44,6 +52,14 @@ class DatabaseSeeder extends Seeder
                 'PricePerMonth' => $month,
                 'status' => 'active',
             ]);
+
+            foreach (self::AMENITIES[$type] as [$amenityName, $amenityDescription]) {
+                Amenity::create([
+                    'AccommodationID' => $accommodation->AccommodationID,
+                    'AmenityName' => $amenityName,
+                    'Description' => $amenityDescription,
+                ]);
+            }
 
             Photo::create([
                 'AccommodationID' => $accommodation->AccommodationID,

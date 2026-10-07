@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
+use App\Models\Amenity;
 use App\Models\Photo;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -44,9 +45,13 @@ class ListingController extends Controller
         $accommodation = Accommodation::create([
             'OwnerID' => Auth::id(),
             'status' => $data['status'],
-        ] + collect($data)->except(['status', 'photos', 'captions'])->all());
+        ] + collect($data)->except(['status', 'photos', 'captions', 'amenities'])->all());
 
         $this->savePhotos($request, $accommodation);
+
+        foreach (preg_split('/\s*,\s*/', (string) $request->input('amenities'), -1, PREG_SPLIT_NO_EMPTY) as $name) {
+            Amenity::create(['AccommodationID' => $accommodation->AccommodationID, 'AmenityName' => mb_substr($name, 0, 100)]);
+        }
 
         return redirect()->route('listings.index')->with('success', 'Listing created.');
     }
@@ -56,7 +61,7 @@ class ListingController extends Controller
         $this->authorizeOwner($accommodation);
         Reservation::expireOverdue();
 
-        return view('listings.edit', ['accommodation' => $accommodation->refresh()->load('photos')]);
+        return view('listings.edit', ['accommodation' => $accommodation->refresh()->load(['photos', 'amenities'])]);
     }
 
     public function update(Request $request, Accommodation $accommodation)
@@ -72,7 +77,7 @@ class ListingController extends Controller
             unset($data['status']);
         }
 
-        $accommodation->update(collect($data)->except(['photos', 'captions'])->all());
+        $accommodation->update(collect($data)->except(['photos', 'captions', 'amenities'])->all());
 
         $this->savePhotos($request, $accommodation);
 
@@ -130,6 +135,7 @@ class ListingController extends Controller
             'status' => $statusRules,
             'photos' => 'nullable|array|max:10',
             'photos.*' => 'image|mimes:jpg,jpeg,png,webp|max:4096',
+            'amenities' => 'nullable|string|max:1000',
             'captions' => 'nullable|array',
             'captions.*' => 'nullable|string|max:255',
         ];

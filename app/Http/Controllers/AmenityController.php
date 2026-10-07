@@ -2,65 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accommodation;
 use App\Models\Amenity;
-use App\Http\Requests\StoreAmenityRequest;
-use App\Http\Requests\UpdateAmenityRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Room owners add and remove amenities on their own listings.
+ */
 class AmenityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(Request $request, Accommodation $accommodation)
     {
-        //
+        $this->authorizeOwner($accommodation);
+
+        $data = $request->validate([
+            'AmenityName' => 'required|string|max:100',
+            'Description' => 'nullable|string|max:500',
+        ]);
+
+        $exists = $accommodation->amenities()->whereRaw('LOWER(AmenityName) = ?', [mb_strtolower($data['AmenityName'])])->exists();
+
+        if ($exists) {
+            return back()->withErrors(['AmenityName' => 'This amenity is already listed.'])->withInput();
+        }
+
+        $accommodation->amenities()->create($data);
+
+        return back()->with('success', 'Amenity added.');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function destroy(Accommodation $accommodation, Amenity $amenity)
     {
-        //
+        $this->authorizeOwner($accommodation);
+        abort_unless($amenity->AccommodationID === $accommodation->AccommodationID, 404);
+
+        $amenity->delete();
+
+        return back()->with('success', 'Amenity removed.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAmenityRequest $request)
+    private function authorizeOwner(Accommodation $accommodation): void
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Amenity $amenity)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Amenity $amenity)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAmenityRequest $request, Amenity $amenity)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Amenity $amenity)
-    {
-        //
+        abort_unless($accommodation->OwnerID === Auth::id(), 403);
     }
 }

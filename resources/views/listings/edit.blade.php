@@ -37,5 +37,29 @@
             <a href="{{ route('listings.index') }}">Cancel</a>
         </p>
     </form>
+
+    <hr style="margin:28px 0;">
+    <h3>Amenities</h3>
+
+    @forelse($accommodation->amenities as $amenity)
+        <form action="{{ route('listings.amenities.destroy', [$accommodation->AccommodationID, $amenity->AmenityID]) }}" method="POST"
+              style="display:flex; gap:10px; align-items:center; margin-bottom:6px;">
+            @csrf
+            @method('DELETE')
+            <span><strong>{{ $amenity->AmenityName }}</strong>@if($amenity->Description) &mdash; {{ $amenity->Description }}@endif</span>
+            <button type="submit">Remove</button>
+        </form>
+    @empty
+        <p>No amenities yet.</p>
+    @endforelse
+
+    <form action="{{ route('listings.amenities.store', $accommodation->AccommodationID) }}" method="POST" style="margin-top:12px;">
+        @csrf
+        <input type="text" name="AmenityName" placeholder="Amenity (e.g. Wi-Fi)" maxlength="100" required value="{{ old('AmenityName') }}">
+        <input type="text" name="Description" placeholder="Details (optional)" maxlength="500" value="{{ old('Description') }}">
+        <button type="submit">Add amenity</button>
+        @error('AmenityName') <div style="color:#b00;">{{ $message }}</div> @enderror
+        @error('Description') <div style="color:#b00;">{{ $message }}</div> @enderror
+    </form>
 </div>
 @endsection

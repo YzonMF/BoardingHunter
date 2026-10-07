@@ -46,6 +46,18 @@
             <h5>Description</h5>
             <p>{{ $accommodation->Description }}</p>
 
+            @if($accommodation->amenities->isNotEmpty())
+                <h5>Amenities</h5>
+                <ul>
+                    @foreach($accommodation->amenities as $amenity)
+                        <li>
+                            <strong>{{ $amenity->AmenityName }}</strong>
+                            @if($amenity->Description) &mdash; {{ $amenity->Description }} @endif
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+
             <hr>
 
             <h5>Pricing</h5>

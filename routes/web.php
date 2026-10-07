@@ -2,6 +2,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccommodationController;
+use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
@@ -90,6 +91,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/{accommodation}', [ListingController::class, 'update'])->name('update');
         Route::delete('/{accommodation}', [ListingController::class, 'destroy'])->name('destroy');
         Route::delete('/{accommodation}/photos/{photo}', [ListingController::class, 'destroyPhoto'])->name('photos.destroy');
+        Route::post('/{accommodation}/amenities', [AmenityController::class, 'store'])->name('amenities.store');
+        Route::delete('/{accommodation}/amenities/{amenity}', [AmenityController::class, 'destroy'])->name('amenities.destroy');
     });
 
     Route::middleware('role:roomOwner')->group(function () {

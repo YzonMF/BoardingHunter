@@ -45,6 +45,11 @@ class Accommodation extends Model
         return $this->belongsTo(Owner::class, 'OwnerID', 'UserID');
     }
 
+    public function amenities()
+    {
+        return $this->hasMany(Amenity::class, 'AccommodationID', 'AccommodationID');
+    }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'AccommodationID', 'AccommodationID');
