@@ -25,6 +25,12 @@ class Owner extends Model
         return $this->belongsTo(User::class, 'UserID');
     }
 
+    /** Business name if the owner set one, otherwise their own name. */
+    public function displayName(): string
+    {
+        return $this->BusinessName ?: ($this->user->fullname ?? 'N/A');
+    }
+
     public function accommodations()
     {
         return $this->hasMany(Accommodation::class, 'OwnerID', 'UserID');

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Listings - Boarding Hunter')
+@section('title', 'Manage Listings - ' . $site['site_name'])
 
 @section('content')
 <div style="max-width:1200px; margin:20px auto; padding:0 15px;">
@@ -14,7 +14,7 @@
         <div class="col-md-3">
             <select name="status" class="form-select">
                 <option value="">All statuses</option>
-                @foreach(['active', 'available', 'reserved', 'booked', 'inactive'] as $st)
+                @foreach(\App\Models\Accommodation::STATUSES as $st)
                     <option value="{{ $st }}" {{ request('status') === $st ? 'selected' : '' }}>{{ ucfirst($st) }}</option>
                 @endforeach
             </select>

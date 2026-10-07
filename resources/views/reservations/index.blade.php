@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Reservations - Boarding Hunter')
+@section('title', 'Reservations - ' . $site['site_name'])
 
 @section('styles')
 <style>

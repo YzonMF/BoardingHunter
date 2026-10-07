@@ -41,15 +41,9 @@
                     <div class="col-md-3">
                         <select name="type" class="form-select">
                             <option value="">All Types</option>
-                            <option value="Boarding" {{ request('type') == 'Boarding' ? 'selected' : '' }}>
-                                Boarding
-                            </option>
-                            <option value="Transient" {{ request('type') == 'Transient' ? 'selected' : '' }}>
-                                Transient
-                            </option>
-                            <option value="Hotel" {{ request('type') == 'Hotel' ? 'selected' : '' }}>
-                                Hotel
-                            </option>
+                            @foreach(\App\Models\Accommodation::TYPES as $type)
+                                <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -57,21 +51,9 @@
                     <div class="col-md-3">
                         <select name="status" class="form-select">
                             <option value="">All Status</option>
-                            <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
-                                Available
-                            </option>
-                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>
-                                Active
-                            </option>
-                            <option value="reserved" {{ request('status') == 'reserved' ? 'selected' : '' }}>
-                                Reserved
-                            </option>
-                            <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>
-                                Booked
-                            </option>
-                            <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
-                                Inactive
-                            </option>
+                            @foreach(\App\Models\Accommodation::STATUSES as $st)
+                                <option value="{{ $st }}" {{ request('status') == $st ? 'selected' : '' }}>{{ ucfirst($st) }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -139,6 +121,7 @@
                         <p class="card-text">
                             <small class="text-muted">
                                 <i class="bi bi-geo-alt"></i> {{ $acc->Location }}
+                                &middot; @include('partials.rating', ['room' => $acc])
                             </small>
                         </p>
                         
@@ -148,7 +131,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div>
                                     <span class="h5 text-primary mb-0">
-                                        ${{ number_format($acc->PricePerNight, 2) }}
+                                        @money($acc->PricePerNight)
                                     </span>
                                     <small class="text-muted">/night</small>
                                 </div>
@@ -165,7 +148,7 @@
                     </div>
                     
                     <div class="card-footer text-muted small">
-                        <i class="bi bi-person"></i> {{ $acc->owner->BusinessName ?? 'N/A' }}
+                        <i class="bi bi-person"></i> {{ $acc->owner->displayName() }}
                         <span class="float-end">
                             {{ \Carbon\Carbon::parse($acc->date_created)->format('M d, Y') }}
                         </span>

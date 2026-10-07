@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('contactnum', 50);
             $table->enum('role', ['admin', 'roomSeeker', 'roomOwner']);
+            $table->rememberToken(); // used by "Remember Me" and password resets
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

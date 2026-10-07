@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', $accommodation->Name . ' - Boarding Hunter')
+@section('title', $accommodation->Name . ' - ' . $site['site_name'])
 
 @section('content')
 <div class="container mt-4">
@@ -60,16 +60,6 @@
 
             <hr>
 
-            @php
-                $reviews = $accommodation->reviews->sortByDesc('ReviewDate');
-                $avgRating = $reviews->avg('Rating');
-                $myReview = Auth::check() ? $reviews->firstWhere('SeekerID', Auth::id()) : null;
-                $canReview = Auth::check() && Auth::user()->role === 'roomSeeker'
-                    && \App\Models\Booking::where('SeekerID', Auth::id())
-                        ->where('AccommodationID', $accommodation->AccommodationID)
-                        ->where('Status', 'Confirmed')->exists();
-            @endphp
-
             <h5>Reviews
                 @if($reviews->isNotEmpty())
                     <small>&mdash; {{ number_format($avgRating, 1) }} / 5 ({{ $reviews->count() }})</small>
@@ -122,13 +112,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card bg-light p-3 text-center">
-                        <span class="h4 text-primary">${{ number_format($accommodation->PricePerNight, 2) }}</span>
+                        <span class="h4 text-primary">@money($accommodation->PricePerNight)</span>
                         <small class="text-muted">per night</small>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card bg-light p-3 text-center">
-                        <span class="h4 text-success">${{ number_format($accommodation->PricePerMonth, 2) }}</span>
+                        <span class="h4 text-success">@money($accommodation->PricePerMonth)</span>
                         <small class="text-muted">per month</small>
                     </div>
                 </div>
@@ -137,7 +127,7 @@
             <hr>
 
             <h5>Owner</h5>
-            <p>{{ $accommodation->owner->BusinessName ?: ($accommodation->owner->user->fullname ?? 'N/A') }}</p>
+            <p>{{ $accommodation->owner->displayName() }}</p>
 
             <hr>
 
@@ -178,7 +168,7 @@
                                     <strong>Reserve</strong>
                                     <p class="text-muted mb-2">
                                         The owner must approve. Once approved, the room is held for
-                                        {{ \App\Models\Reservation::HOLD_DAYS }} days, then released if you have not booked.
+                                        {{ \App\Models\Reservation::holdDays() }} days, then released if you have not booked.
                                     </p>
                                     <label>Check-in date</label>
                                     <input type="date" name="CheckInDate" class="form-control mb-2" min="{{ now()->toDateString() }}" value="{{ old('CheckInDate') }}" required>

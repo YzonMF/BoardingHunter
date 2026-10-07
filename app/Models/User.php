@@ -12,6 +12,16 @@ class User extends Authenticatable
     
     use HasFactory, Notifiable;
 
+    /** Role values with their display labels. */
+    public const ROLES = [
+        'admin' => 'Admin',
+        'roomOwner' => 'Room Owner',
+        'roomSeeker' => 'Room Seeker',
+    ];
+
+    /** Roles anyone may sign up as; admins are created by other admins. */
+    public const PUBLIC_ROLES = ['roomOwner', 'roomSeeker'];
+
     protected $primaryKey = 'UserID';
     
     protected $fillable = [

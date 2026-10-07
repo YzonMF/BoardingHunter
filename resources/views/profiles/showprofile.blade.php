@@ -1,6 +1,6 @@
 @extends(Auth::user()->role === 'admin' ? 'layouts.admin' : 'layouts.layout')
 
-@section('title', 'My Profile - Boarding Hunter')
+@section('title', 'My Profile - ' . $site['site_name'])
 
 @section('content')
 <div style="max-width:800px; margin:20px auto; padding:0 16px;">

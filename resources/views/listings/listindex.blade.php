@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'My Listings - Boarding Hunter')
+@section('title', 'My Listings - ' . $site['site_name'])
 
 @section('content')
 <div style="max-width:1000px; margin:20px auto; padding:0 16px;">

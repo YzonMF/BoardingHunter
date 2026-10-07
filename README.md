@@ -22,7 +22,9 @@ BoardingHunter is a web application for finding and managing boarding accommodat
 - **Owner tools:** create/edit/delete listings, upload photos, manage amenities
 - **Community board:** read publicly, post when signed in, admins moderate
 - **Profile:** edit details and change password
-- **Admin:** dashboard, user management, listing moderation and reports
+- **Admin:** dashboard, user management, listing moderation, reports and site settings
+- **Site settings (database-driven):** site name, contact email/phone/address, About text, currency symbol and the reservation hold length are stored in the `settings` table and edited by admins at *Admin > Settings*; nothing like that is hard-coded in the views
+- **Password reset:** "Forgot password?" emails a reset link (single use, rate limited)
 
 ## Tech Stack
 
@@ -40,6 +42,10 @@ BoardingHunter is a web application for finding and managing boarding accommodat
 5. Run `php artisan migrate --seed` (creates the tables and demo data)
 6. Run `php artisan storage:link` (needed so uploaded listing photos are served)
 7. Run `php artisan serve`
+
+### Email (password reset)
+
+`.env.example` uses `MAIL_MAILER=log`, so reset emails are written to `storage/logs/laravel.log` instead of being sent. Open the log and copy the reset link. Configure a real mailer (`MAIL_MAILER=smtp` plus host/credentials) when you deploy.
 
 ### Demo accounts
 

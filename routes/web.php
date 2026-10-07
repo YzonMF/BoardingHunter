@@ -6,9 +6,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
@@ -23,6 +26,10 @@ use App\Http\Controllers\ReviewController;
 Route::get('/', [AccommodationController::class, 'home'])->name('index');
 Route::get('/accommodations', [AccommodationController::class, 'index'])->name('accommodations.index');
 Route::get('/accommodations/{accommodation}', [AccommodationController::class, 'show'])->name('accommodations.show');
+
+// About / Contact (text and contact details come from the settings table)
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'about'])->name('contact');
 
 // Community board (reading is public; /community/create must come before /community/{post})
 Route::get('/community', [CommunityController::class, 'index'])->name('community.index');
@@ -49,9 +56,11 @@ Route::middleware('guest')->group(function () {
     
     Route::post('/login', [UserController::class, 'login'])->name('login.post');
 
-    Route::get('/forgotpassword', function () {
-        return view('auth/forgot');
-    })->name('password.request');
+    // Password reset by email
+    Route::get('/forgotpassword', [PasswordResetController::class, 'showForgot'])->name('password.request');
+    Route::post('/forgotpassword', [PasswordResetController::class, 'sendLink'])->middleware('throttle:5,1,forgot-password')->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showReset'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'reset'])->middleware('throttle:10,1,reset-password')->name('password.update');
 });
 
 // Authenticated Routes
@@ -61,9 +70,7 @@ Route::middleware('auth')->group(function () {
 
     // Boarding Hunter Home (Room Owners & Room Seekers)
     Route::middleware('role:roomOwner,roomSeeker')->group(function () {
-        Route::get('/boardinghunter/home', function () {
-            return view('boardinghunter.home');
-        })->name('boardinghunter.home');
+        Route::get('/boardinghunter/home', [HomeController::class, 'dashboard'])->name('boardinghunter.home');
 
         Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.show');
     });
@@ -131,6 +138,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/admin/listings/{accommodation}/status', [AdminController::class, 'updateListingStatus'])->name('admin.listings.status');
         Route::delete('/admin/listings/{accommodation}', [AdminController::class, 'destroyListing'])->name('admin.listings.destroy');
         Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+        Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+        Route::put('/admin/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
 
         // User Management Routes
         Route::prefix('users')->group(function () {

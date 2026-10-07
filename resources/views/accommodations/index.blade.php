@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'All Accommodations - Boarding Hunter')
+@section('title', 'All Accommodations - ' . $site['site_name'])
 
 @section('content')
 <div class="container mt-4">
@@ -31,6 +31,7 @@
                         <p class="card-text">
                             <small class="text-muted">
                                 <i class="bi bi-geo-alt"></i> {{ $acc->Location }}
+                                &middot; @include('partials.rating', ['room' => $acc])
                             </small>
                         </p>
                         
@@ -40,7 +41,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div>
                                     <span class="h5 text-primary mb-0">
-                                        ${{ number_format($acc->PricePerNight, 2) }}
+                                        @money($acc->PricePerNight)
                                     </span>
                                     <small class="text-muted">/night</small>
                                 </div>
@@ -57,7 +58,7 @@
                     </div>
                     
                     <div class="card-footer text-muted small">
-                        <i class="bi bi-person"></i> {{ $acc->owner->BusinessName ?? 'N/A' }}
+                        <i class="bi bi-person"></i> {{ $acc->owner->displayName() }}
                         <span class="float-end">
                             {{ \Carbon\Carbon::parse($acc->date_created)->format('M d, Y') }}
                         </span>

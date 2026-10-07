@@ -126,7 +126,7 @@ class ListingController extends Controller
 
         return [
             'Name' => 'required|string|max:100',
-            'Type' => ['required', Rule::in(['Boarding', 'Transient', 'Hotel'])],
+            'Type' => ['required', Rule::in(Accommodation::TYPES)],
             'Description' => 'required|string|max:5000',
             'Location' => 'required|string|max:255',
             'PricePerNight' => 'required|numeric|min:0|max:99999999',

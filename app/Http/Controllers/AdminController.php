@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\CommunityPost;
 use App\Models\Reservation;
 use App\Models\Review;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,28 @@ class AdminController extends Controller
         $accommodation->delete();
 
         return back()->with('success', 'Listing deleted.');
+    }
+
+    public function settings()
+    {
+        return view('admin.settings', ['settings' => Setting::values()]);
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $data = $request->validate([
+            'site_name' => 'required|string|max:100',
+            'contact_email' => 'required|email|max:100',
+            'contact_phone' => 'nullable|string|max:50',
+            'address' => 'nullable|string|max:255',
+            'about_text' => 'nullable|string|max:2000',
+            'currency_symbol' => 'required|string|max:5',
+            'reservation_hold_days' => 'required|integer|between:1,60',
+        ]);
+
+        Setting::put($data);
+
+        return redirect()->route('admin.settings')->with('success', 'Settings saved.');
     }
 
     public function reports()

@@ -36,9 +36,9 @@
       <div class="mb-3">
           <label for="role" class="form-label">Role</label>
           <select class="form-select" name="role" id="role" aria-label="Select role" required>
-              <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-              <option value="roomOwner" {{ old('role', $user->role) == 'roomOwner' ? 'selected' : '' }}>Room Owner</option>
-              <option value="roomSeeker" {{ old('role', $user->role) == 'roomSeeker' ? 'selected' : '' }}>Room Seeker</option>
+              @foreach(\App\Models\User::ROLES as $value => $label)
+                  <option value="{{ $value }}" {{ old('role', $user->role) == $value ? 'selected' : '' }}>{{ $label }}</option>
+              @endforeach
           </select>
       </div>
 

@@ -28,7 +28,7 @@ class ReservationController extends Controller
 
         return view('reservations.index', [
             'reservations' => $query->get(),
-            'holdDays' => Reservation::HOLD_DAYS,
+            'holdDays' => Reservation::holdDays(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class ReservationController extends Controller
         );
 
         return redirect()->route('reservations.index')
-            ->with('success', 'Reservation requested. The owner needs to approve it; the ' . Reservation::HOLD_DAYS . '-day hold starts on approval.');
+            ->with('success', 'Reservation requested. The owner needs to approve it; the ' . Reservation::holdDays() . '-day hold starts on approval.');
     }
 
     public function approve(Request $request, Reservation $reservation)
@@ -94,7 +94,7 @@ class ReservationController extends Controller
         return back()->with(
             $approved ? 'success' : 'error',
             $approved
-                ? 'Reservation approved. The room is held for ' . Reservation::HOLD_DAYS . ' days.'
+                ? 'Reservation approved. The room is held for ' . Reservation::holdDays() . ' days.'
                 : 'This reservation can no longer be approved (it was already handled or the room is not open).'
         );
     }

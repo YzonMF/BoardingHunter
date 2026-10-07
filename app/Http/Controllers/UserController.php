@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
@@ -45,7 +46,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
             'contactnum' => 'required|string|max:50',
-            'role' => 'required|in:admin,roomOwner,roomSeeker',
+            'role' => ['required', Rule::in(array_keys(User::ROLES))],
         ]);
 
         $user = new User;
@@ -68,7 +69,7 @@ class UserController extends Controller
             'fullname' => 'required|string|max:50',
             'email' => 'required|email|max:50|unique:users',
             'contactnum' => 'required|string|max:50',
-            'role' => 'required|in:roomOwner,roomSeeker',
+            'role' => ['required', Rule::in(User::PUBLIC_ROLES)],
             'password' => 'required|min:8|confirmed'
         ]);
 
@@ -149,7 +150,7 @@ class UserController extends Controller
             'fullname' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email,' . $user->UserID . ',UserID',
             'contactnum' => 'required|string|max:50',
-            'role' => 'required|in:admin,roomOwner,roomSeeker',
+            'role' => ['required', Rule::in(array_keys(User::ROLES))],
             'password' => 'nullable|min:8|confirmed',
         ]);
 

@@ -44,8 +44,9 @@
     <div class="mb-3">
         <select class="form-select" name="role" aria-label="Select role" required>
             <option selected disabled>Select Role</option>
-            <option value="roomOwner">Room Owner</option>
-            <option value="roomSeeker">Room Seeker</option>
+            @foreach(\App\Models\User::PUBLIC_ROLES as $role)
+                <option value="{{ $role }}" {{ old('role') === $role ? 'selected' : '' }}>{{ \App\Models\User::ROLES[$role] }}</option>
+            @endforeach
         </select>
     </div>
 

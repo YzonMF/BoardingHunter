@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Boarding Hunter')</title>
+    <title>@yield('title', $site['site_name'])</title>
 
     <!-- Global CSS -->
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
@@ -19,12 +19,14 @@
     @endauth
     <header>
         <div class="navbar">
-            <h1>Boarding Hunter</h1>
+            <h1>{{ $site['site_name'] }}</h1>
 
             <!-- Quick access links (shown only on wide screens) -->
             <div class="quick-links">
                 <a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
                 <a href="{{ route('community.index') }}" class="{{ request()->routeIs('community.*') ? 'active' : '' }}">Community</a>
+            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
                 @auth
                     <a href="{{ route('inquiries.show') }}" class="{{ request()->routeIs('inquiries.show') ? 'active' : '' }}">Inquiries</a>
                     <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">Reservations</a>
@@ -48,8 +50,6 @@
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">Bookings</a>
                 <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}">Notifications {{ $unreadCount > 0 ? '(' . $unreadCount . ')' : '' }}</a>
                 <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">Profile</a>
-                <a href="#">Contact Us</a>
-                <a href="#">About Us</a>
                 @if(Auth::user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
                 @endif
@@ -67,9 +67,11 @@
     @yield('content')
 
     <footer>
-        <h2>Contact Us</h2>
-        <p>Email: boardingHunt@gmail.com</p>
-        <p>&copy; {{ date('Y') }} Boarding Hunter. All rights reserved.</p>
+        <h2><a href="{{ route('contact') }}" style="color:inherit;">Contact Us</a></h2>
+        <p>Email: <a href="mailto:{{ $site['contact_email'] }}" style="color:inherit;">{{ $site['contact_email'] }}</a></p>
+        @if($site['contact_phone'])<p>Phone: {{ $site['contact_phone'] }}</p>@endif
+        @if($site['address'])<p>{{ $site['address'] }}</p>@endif
+        <p>&copy; {{ date('Y') }} {{ $site['site_name'] }}. All rights reserved.</p>
     </footer>
 </body>
 </html>

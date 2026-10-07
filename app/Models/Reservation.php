@@ -10,8 +10,11 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    /** How long an approved reservation holds the room. */
-    public const HOLD_DAYS = 7;
+    /** How many days an approved reservation holds the room (admin setting, 1-60). */
+    public static function holdDays(): int
+    {
+        return max(1, min(60, (int) Setting::get('reservation_hold_days', 7)));
+    }
 
     protected $primaryKey = 'ReservationID';
 
@@ -53,7 +56,7 @@ class Reservation extends Model
     }
 
     /**
-     * Owner approves: the room is held for HOLD_DAYS starting now.
+     * Owner approves: the room is held for holdDays() starting now.
      * Returns false if the room is no longer open.
      */
     public function approve(?string $response = null): bool
@@ -70,7 +73,7 @@ class Reservation extends Model
                 'Status' => 'Confirmed',
                 'OwnerResponse' => $response,
                 'ApprovedAt' => $now,
-                'ExpiresAt' => $now->copy()->addDays(self::HOLD_DAYS),
+                'ExpiresAt' => $now->copy()->addDays(self::holdDays()),
             ]);
             $room->update(['status' => 'reserved']);
 
@@ -104,7 +107,7 @@ class Reservation extends Model
 
         $room = $this->accommodation;
         $this->seeker?->notifyApp(
-            'Your reservation for ' . $room->Name . ' expired because it was not booked within ' . self::HOLD_DAYS . ' days.',
+            'Your reservation for ' . $room->Name . ' expired because it was not booked within ' . self::holdDays() . ' days.',
             route('reservations.index')
         );
         User::find($room->OwnerID)?->notifyApp(

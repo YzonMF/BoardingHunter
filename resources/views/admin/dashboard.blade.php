@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Dashboard - Boarding Hunter')
+@section('title', 'Admin Dashboard - ' . $site['site_name'])
 
 @section('styles')
 <style>

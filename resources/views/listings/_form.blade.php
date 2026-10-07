@@ -21,7 +21,7 @@
         <div>
             <label for="Type">Type</label>
             <select id="Type" name="Type" required>
-                @foreach(['Boarding', 'Transient', 'Hotel'] as $type)
+                @foreach(\App\Models\Accommodation::TYPES as $type)
                     <option value="{{ $type }}" {{ old('Type', $a->Type ?? '') === $type ? 'selected' : '' }}>{{ $type }}</option>
                 @endforeach
             </select>

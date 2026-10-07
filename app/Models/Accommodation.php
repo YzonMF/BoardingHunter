@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accommodation extends Model
 {
+    /** Accommodation types (matches the `Type` enum column). */
+    public const TYPES = ['Boarding', 'Transient', 'Hotel'];
+
+    /** Every status a room can have; reserved and booked are set by the system. */
+    public const STATUSES = ['active', 'available', 'reserved', 'booked', 'inactive'];
+
     /** Statuses in which a room can be reserved or booked. */
     public const OPEN_STATUSES = ['active', 'available'];
 
@@ -43,6 +49,14 @@ class Accommodation extends Model
     public function owner()
     {
         return $this->belongsTo(Owner::class, 'OwnerID', 'UserID');
+    }
+
+    /** Rooms as shown on cards: photos, owner name and average rating loaded in one go. */
+    public function scopeCard($query)
+    {
+        return $query->with(['photos', 'owner.user'])
+            ->withAvg('reviews', 'Rating')
+            ->withCount('reviews');
     }
 
     public function amenities()
