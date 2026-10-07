@@ -45,6 +45,16 @@ class Accommodation extends Model
         return $this->belongsTo(Owner::class, 'OwnerID', 'UserID');
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'AccommodationID', 'AccommodationID');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'AccommodationID', 'AccommodationID');
+    }
+
     public function isOpen(): bool
     {
         return in_array($this->status, self::OPEN_STATUSES, true);

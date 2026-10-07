@@ -25,6 +25,11 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-3">
                 <h2 class="card-title mb-0">{{ $accommodation->Name }}</h2>
+                @auth
+                    @if(Auth::id() === $accommodation->OwnerID)
+                        <a href="{{ route('listings.edit', $accommodation->AccommodationID) }}">Edit this listing</a>
+                    @endif
+                @endauth
                 <span class="badge bg-info fs-6">{{ $accommodation->Type }}</span>
             </div>
 

@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title">Owner Dashboard</h5>
                 <p class="card-text">Manage your accommodation listings and respond to inquiries.</p>
-                <a href="{{ route('accommodations.index') }}" class="btn btn-primary">View My Listings</a>
+                <a href="{{ route('listings.index') }}" class="btn btn-primary">Manage My Listings</a>
                 <a href="{{ route('inquiries.show') }}" class="btn btn-outline-primary">View Inquiries</a>
             </div>
         </div>

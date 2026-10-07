@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ReservationController;
 
 /*
@@ -72,6 +73,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
         Route::post('/reservations/{reservation}/book', [BookingController::class, 'storeFromReservation'])->name('reservations.book');
         Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    });
+
+    // Owner listing management
+    Route::middleware('role:roomOwner')->prefix('my-listings')->name('listings.')->group(function () {
+        Route::get('/', [ListingController::class, 'index'])->name('index');
+        Route::get('/create', [ListingController::class, 'create'])->name('create');
+        Route::post('/', [ListingController::class, 'store'])->name('store');
+        Route::get('/{accommodation}/edit', [ListingController::class, 'edit'])->name('edit');
+        Route::put('/{accommodation}', [ListingController::class, 'update'])->name('update');
+        Route::delete('/{accommodation}', [ListingController::class, 'destroy'])->name('destroy');
+        Route::delete('/{accommodation}/photos/{photo}', [ListingController::class, 'destroyPhoto'])->name('photos.destroy');
     });
 
     Route::middleware('role:roomOwner')->group(function () {
