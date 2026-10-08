@@ -17,7 +17,7 @@ public function up(): void
         $table->bigIncrements('AccommodationID');
         $table->unsignedBigInteger('OwnerID');
         $table->string('Name', 100);
-        $table->enum('Type', ['Boarding', 'Transient', 'Hotel']);
+        $table->string('Type', 50); // a name from the room_types table
         $table->text('Description');
         $table->string('Location');
         $table->decimal('PricePerNight', 10, 2);

@@ -102,6 +102,11 @@ class AdminController extends Controller
             'about_text' => 'nullable|string|max:2000',
             'currency_symbol' => 'required|string|max:5',
             'reservation_hold_days' => 'required|integer|between:1,60',
+            'home_tagline' => 'nullable|string|max:150',
+            'home_latest_count' => 'required|integer|between:1,24',
+            'posts_per_page' => 'required|integer|between:5,50',
+            'max_photos_per_upload' => 'required|integer|between:1,20',
+            'max_photo_mb' => 'required|integer|between:1,10',
         ]);
 
         Setting::put($data);

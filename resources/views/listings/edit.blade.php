@@ -55,7 +55,10 @@
 
     <form action="{{ route('listings.amenities.store', $accommodation->AccommodationID) }}" method="POST" style="margin-top:12px;">
         @csrf
-        <input type="text" name="AmenityName" placeholder="Amenity (e.g. Wi-Fi)" maxlength="100" required value="{{ old('AmenityName') }}">
+        <input type="text" name="AmenityName" placeholder="Amenity (e.g. Wi-Fi)" maxlength="100" required list="amenity-options" autocomplete="off" value="{{ old('AmenityName') }}">
+        <datalist id="amenity-options">
+            @foreach($amenitySuggestions as $suggestion)<option value="{{ $suggestion }}">@endforeach
+        </datalist>
         <input type="text" name="Description" placeholder="Details (optional)" maxlength="500" value="{{ old('Description') }}">
         <button type="submit">Add amenity</button>
         @error('AmenityName') <div style="color:#b00;">{{ $message }}</div> @enderror

@@ -23,7 +23,9 @@ BoardingHunter is a web application for finding and managing boarding accommodat
 - **Community board:** read publicly, post when signed in, admins moderate
 - **Profile:** edit details and change password
 - **Admin:** dashboard, user management, listing moderation, reports and site settings
-- **Site settings (database-driven):** site name, contact email/phone/address, About text, currency symbol and the reservation hold length are stored in the `settings` table and edited by admins at *Admin > Settings*; nothing like that is hard-coded in the views
+- **Site settings (database-driven):** site name, contact email/phone/address, About text, home tagline, currency symbol, the reservation hold length, and display/upload limits (rooms on the home page, posts per page, photos per upload, largest photo) are stored in the `settings` table and edited by admins at *Admin > Settings*. The site name also names the app and the sender of emails
+- **Admin-managed room types:** *Admin > Room Types* adds, renames and removes the accommodation types (Boarding, Transient, Hotel, ...). Renaming updates every listing; a type in use cannot be deleted
+- **Suggestions from real data:** the listing form suggests locations already in use and popular amenities; the price filter shows the cheapest and priciest room
 - **Password reset:** "Forgot password?" emails a reset link (single use, rate limited)
 
 ## Tech Stack
@@ -36,7 +38,7 @@ BoardingHunter is a web application for finding and managing boarding accommodat
 ## Getting Started
 
 1. Clone the repository
-2. Run `composer install`
+2. Run `composer install` (no `npm install` is needed: the pages use plain CSS from `public/css`)
 3. Copy `.env.example` to `.env` and configure your database
 4. Run `php artisan key:generate`
 5. Run `php artisan migrate --seed` (creates the tables and demo data)

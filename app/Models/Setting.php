@@ -20,8 +20,7 @@ class Setting extends Model
 
     protected $fillable = ['key', 'value'];
 
-    /** Values loaded once per request. */
-    private static ?array $loaded = null;
+    private const CONTAINER_KEY = 'site.settings';
 
     public static function defaults(): array
     {
@@ -34,22 +33,36 @@ class Setting extends Model
                 . 'Browse rooms, message owners, reserve or book, and share your experience.',
             'currency_symbol' => '₱',
             'reservation_hold_days' => '7',
+            'home_tagline' => 'Find a room that fits you.',
+            'home_latest_count' => '6',
+            'posts_per_page' => '10',
+            'max_photos_per_upload' => '10',
+            'max_photo_mb' => '4',
         ];
     }
 
     /** All settings, with defaults filled in for anything not stored. */
     public static function values(): array
     {
-        if (self::$loaded === null) {
-            self::$loaded = array_merge(self::defaults(), static::query()->pluck('value', 'key')->map(fn ($v) => $v ?? '')->all());
+        // Cached in the container for the current request/app instance only.
+        if (!app()->bound(self::CONTAINER_KEY)) {
+            app()->instance(self::CONTAINER_KEY, array_merge(self::defaults(), static::query()->pluck('value', 'key')->map(fn ($v) => $v ?? '')->all()));
         }
 
-        return self::$loaded;
+        return app(self::CONTAINER_KEY);
     }
 
     public static function get(string $key, mixed $default = null): mixed
     {
         return self::values()[$key] ?? $default;
+    }
+
+    /** A numeric setting, clamped to a sane range so a bad stored value cannot break a page. */
+    public static function int(string $key, int $default, int $min = 1, int $max = 1000): int
+    {
+        $value = (int) self::get($key, $default);
+
+        return max($min, min($max, $value ?: $default));
     }
 
     /** Saves several settings at once; unknown keys are ignored. */
@@ -64,7 +77,7 @@ class Setting extends Model
 
     public static function forget(): void
     {
-        self::$loaded = null;
+        app()->forgetInstance(self::CONTAINER_KEY);
     }
 
     /** Formats an amount with the configured currency symbol, e.g. "₱1,250.00". */

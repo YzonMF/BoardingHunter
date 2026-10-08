@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Accommodation;
 use App\Models\Booking;
 use App\Models\Reservation;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,7 +68,11 @@ class AccommodationController extends Controller
             ->orderBy('Location')
             ->pluck('Location');
 
-        return view('index', compact('accommodations', 'locations'));
+        // Cheapest and priciest room, shown as hints in the price filter.
+        $priceBounds = Accommodation::selectRaw('MIN(PricePerNight) as low, MAX(PricePerNight) as high')->first();
+        $roomTypes = RoomType::names();
+
+        return view('index', compact('accommodations', 'locations', 'priceBounds', 'roomTypes'));
     }
 
     /**

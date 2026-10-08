@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', $user->fullname . ' - User Details - Boarding Hunter Admin')
+@section('title', $user->fullname . ' - User Details - ' . $site['site_name'] . ' Admin')
 
 @section('content')
 <div class="container mt-4">

@@ -15,6 +15,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RoomTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +140,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/listings/{accommodation}', [AdminController::class, 'destroyListing'])->name('admin.listings.destroy');
         Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
         Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+        Route::get('/admin/room-types', [RoomTypeController::class, 'index'])->name('admin.room-types');
+        Route::post('/admin/room-types', [RoomTypeController::class, 'store'])->name('admin.room-types.store');
+        Route::put('/admin/room-types/{roomType}', [RoomTypeController::class, 'update'])->name('admin.room-types.update');
+        Route::delete('/admin/room-types/{roomType}', [RoomTypeController::class, 'destroy'])->name('admin.room-types.destroy');
         Route::put('/admin/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
 
         // User Management Routes

@@ -6,6 +6,7 @@ use App\Models\Accommodation;
 use App\Models\Booking;
 use App\Models\Inquiry;
 use App\Models\Reservation;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -51,7 +52,7 @@ class HomeController extends Controller
             'stats' => $stats,
             'expiringHolds' => $expiringHolds,
             'unread' => $user->unreadNotifications()->count(),
-            'latestAccommodations' => Accommodation::card()->orderBy('date_created', 'desc')->take(6)->get(),
+            'latestAccommodations' => Accommodation::card()->orderBy('date_created', 'desc')->take(Setting::int('home_latest_count', 6, 1, 24))->get(),
         ]);
     }
 }

@@ -6,8 +6,11 @@ use App\Models\Accommodation;
 use App\Models\Amenity;
 use App\Models\Photo;
 use App\Models\Reservation;
+use App\Models\RoomType;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /**
@@ -34,7 +37,7 @@ class ListingController extends Controller
 
     public function create()
     {
-        return view('listings.create');
+        return view('listings.create', $this->formData());
     }
 
     public function store(Request $request)
@@ -60,7 +63,15 @@ class ListingController extends Controller
         $this->authorizeOwner($accommodation);
         Reservation::expireOverdue();
 
-        return view('listings.edit', ['accommodation' => $accommodation->refresh()->load(['photos', 'amenities'])]);
+        $accommodation->refresh()->load(['photos', 'amenities']);
+
+        // Popular amenity names other owners use, minus the ones this room already has.
+        $have = $accommodation->amenities->pluck('AmenityName')->map(fn ($n) => mb_strtolower($n))->all();
+        $suggestions = Amenity::select('AmenityName', DB::raw('COUNT(*) as uses'))
+            ->groupBy('AmenityName')->orderByDesc('uses')->orderBy('AmenityName')->limit(30)->pluck('AmenityName')
+            ->reject(fn ($n) => in_array(mb_strtolower($n), $have, true))->values();
+
+        return view('listings.edit', ['accommodation' => $accommodation, 'amenitySuggestions' => $suggestions] + $this->formData());
     }
 
     public function update(Request $request, Accommodation $accommodation)
@@ -115,6 +126,15 @@ class ListingController extends Controller
         return back()->with('success', 'Photo removed.');
     }
 
+    /** Lists that populate the listing form: types and locations already in use. */
+    private function formData(): array
+    {
+        return [
+            'roomTypes' => RoomType::names(),
+            'locations' => Accommodation::query()->distinct()->orderBy('Location')->pluck('Location'),
+        ];
+    }
+
     private function rules(?Accommodation $accommodation = null): array
     {
         $statusRules = ['required', Rule::in(self::OWNER_STATUSES)];
@@ -126,14 +146,14 @@ class ListingController extends Controller
 
         return [
             'Name' => 'required|string|max:100',
-            'Type' => ['required', Rule::in(Accommodation::TYPES)],
+            'Type' => ['required', Rule::in(RoomType::names())],
             'Description' => 'required|string|max:5000',
             'Location' => 'required|string|max:255',
             'PricePerNight' => 'required|numeric|min:0|max:99999999',
             'PricePerMonth' => 'required|numeric|min:0|max:99999999',
             'status' => $statusRules,
-            'photos' => 'nullable|array|max:10',
-            'photos.*' => 'image|mimes:jpg,jpeg,png,webp|max:4096',
+            'photos' => 'nullable|array|max:' . Setting::int('max_photos_per_upload', 10, 1, 20),
+            'photos.*' => 'image|mimes:jpg,jpeg,png,webp|max:' . (Setting::int('max_photo_mb', 4, 1, 10) * 1024),
             'amenities' => 'nullable|string|max:1000',
             'captions' => 'nullable|array',
             'captions.*' => 'nullable|string|max:255',

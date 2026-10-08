@@ -21,7 +21,7 @@
         <div>
             <label for="Type">Type</label>
             <select id="Type" name="Type" required>
-                @foreach(\App\Models\Accommodation::TYPES as $type)
+                @foreach($roomTypes as $type)
                     <option value="{{ $type }}" {{ old('Type', $a->Type ?? '') === $type ? 'selected' : '' }}>{{ $type }}</option>
                 @endforeach
             </select>
@@ -44,7 +44,10 @@
     </div>
 
     <label for="Location">Location</label>
-    <input type="text" id="Location" name="Location" maxlength="255" value="{{ old('Location', $a->Location ?? '') }}" required>
+    <input type="text" id="Location" name="Location" maxlength="255" list="location-options" autocomplete="off" value="{{ old('Location', $a->Location ?? '') }}" required>
+    <datalist id="location-options">
+        @foreach($locations as $place)<option value="{{ $place }}">@endforeach
+    </datalist>
     @error('Location') <div class="err">{{ $message }}</div> @enderror
 
     <div class="row2">
@@ -70,7 +73,7 @@
         @error('amenities') <div class="err">{{ $message }}</div> @enderror
     @endunless
 
-    <label for="photos">Add photos <span class="hint">(up to 10 images, JPG/PNG/WebP, 4 MB each)</span></label>
+    <label for="photos">Add photos <span class="hint">(up to {{ $site['max_photos_per_upload'] }} images, JPG/PNG/WebP, {{ $site['max_photo_mb'] }} MB each)</span></label>
     <input type="file" id="photos" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple>
     @error('photos') <div class="err">{{ $message }}</div> @enderror
     @foreach($errors->get('photos.*') as $messages)

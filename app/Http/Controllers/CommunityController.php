@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommunityPost;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class CommunityController extends Controller
             })
             ->orderByDesc('PostDate')
             ->orderByDesc('PostID')
-            ->paginate(10)
+            ->paginate(Setting::int('posts_per_page', 10, 5, 50))
             ->withQueryString();
 
         return view('community.commindex', compact('posts'));

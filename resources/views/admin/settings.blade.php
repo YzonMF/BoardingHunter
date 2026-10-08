@@ -59,6 +59,30 @@
             </div>
         </div>
 
+        <h4 class="mt-4">Display and upload limits</h4>
+
+        <div class="mb-3">
+            <label class="form-label" for="home_tagline">Home page tagline <small class="text-muted">(optional)</small></label>
+            <input type="text" class="form-control @error('home_tagline') is-invalid @enderror" id="home_tagline" name="home_tagline" maxlength="150" value="{{ old('home_tagline', $settings['home_tagline']) }}">
+            @error('home_tagline') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+
+        <div class="row">
+            @foreach([
+                ['home_latest_count', 'Latest rooms on the member home page', 1, 24, ''],
+                ['posts_per_page', 'Community posts per page', 5, 50, ''],
+                ['max_photos_per_upload', 'Photos per upload', 1, 20, 'How many images an owner can add in one go.'],
+                ['max_photo_mb', 'Largest photo (MB)', 1, 10, 'Check this is not above your server\'s upload_max_filesize.'],
+            ] as [$key, $label, $min, $max, $help])
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="{{ $key }}">{{ $label }}</label>
+                    <input type="number" class="form-control @error($key) is-invalid @enderror" id="{{ $key }}" name="{{ $key }}" min="{{ $min }}" max="{{ $max }}" required value="{{ old($key, $settings[$key]) }}">
+                    @if($help)<div class="form-text">{{ $help }}</div>@endif
+                    @error($key) <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            @endforeach
+        </div>
+
         <button type="submit" class="btn btn-primary">Save settings</button>
     </form>
 </div>

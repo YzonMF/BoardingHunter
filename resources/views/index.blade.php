@@ -3,7 +3,8 @@
 @section('content')
 
 <div class="container mt-4">
-    <h2 class="mb-4">All Accommodations</h2>
+    <h2 class="mb-1">All Accommodations</h2>
+    @if($site['home_tagline'])<p class="text-muted mb-4">{{ $site['home_tagline'] }}</p>@endif
 
     <!-- Filter Section -->
     <div class="card mb-4">
@@ -41,7 +42,7 @@
                     <div class="col-md-3">
                         <select name="type" class="form-select">
                             <option value="">All Types</option>
-                            @foreach(\App\Models\Accommodation::TYPES as $type)
+                            @foreach($roomTypes as $type)
                                 <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>{{ $type }}</option>
                             @endforeach
                         </select>
@@ -60,18 +61,18 @@
                     <!-- Price Range -->
                     <div class="col-md-3">
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">{{ $site['currency_symbol'] }}</span>
                             <input type="number" 
                                    class="form-control" 
                                    name="min_price" 
-                                   placeholder="Min" 
+                                   placeholder="Min{{ $priceBounds->low !== null ? ' ' . number_format($priceBounds->low, 0) : '' }}" 
                                    value="{{ request('min_price') }}"
                                    step="0.01">
                             <span class="input-group-text">-</span>
                             <input type="number" 
                                    class="form-control" 
                                    name="max_price" 
-                                   placeholder="Max" 
+                                   placeholder="Max{{ $priceBounds->high !== null ? ' ' . number_format($priceBounds->high, 0) : '' }}" 
                                    value="{{ request('max_price') }}"
                                    step="0.01">
                         </div>

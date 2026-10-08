@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accommodation extends Model
 {
-    /** Accommodation types (matches the `Type` enum column). */
-    public const TYPES = ['Boarding', 'Transient', 'Hotel'];
-
     /** Every status a room can have; reserved and booked are set by the system. */
     public const STATUSES = ['active', 'available', 'reserved', 'booked', 'inactive'];
 
